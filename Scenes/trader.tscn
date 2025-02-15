@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=3 uid="uid://cinkwyci1ftsm"]
+
+[ext_resource type="Script" path="res://Worker/worker.gd" id="1_f6lmh"]
+[ext_resource type="Script" path="res://StateMachine/State_Machine.gd" id="2_6tfoa"]
+[ext_resource type="Script" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r8rx"]
+albedo_color = Color(0.832401, 0.150553, 0.881366, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i8d5u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qv0se"]
+resource_local_to_scene = true
+
+[sub_resource type="Animation" id="Animation_psf4x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_um7en"]
+resource_name = "walk"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.0129907, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7cbw6"]
+resource_name = "work"
+length = 0.3
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7uoni"]
+_data = {
+"RESET": SubResource("Animation_psf4x"),
+"walk": SubResource("Animation_um7en"),
+"work": SubResource("Animation_7cbw6")
+}
+
+[node name="Trader" type="CharacterBody3D"]
+collision_layer = 2
+script = ExtResource("1_f6lmh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
+material_override = SubResource("StandardMaterial3D_4r8rx")
+mesh = SubResource("CapsuleMesh_i8d5u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02677, 0)
+shape = SubResource("CapsuleShape3D_qv0se")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7uoni")
+}
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user")]
+script = ExtResource("2_6tfoa")
+initial_state = NodePath("TradingState")
+script_user = NodePath("..")
+
+[node name="TradingState" type="Node" parent="StateMachine"]
+
+[node name="TravelingState" type="Node" parent="StateMachine"]
+
+[node name="DecidingDestinationState" type="Node" parent="StateMachine"]
+
+[node name="SleepingState" type="Node" parent="StateMachine"]
+script = ExtResource("5_fugnv")

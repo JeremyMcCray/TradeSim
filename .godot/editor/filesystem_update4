@@ -17,3 +17,6 @@ res://Scenes/village_center.gd
 res://Scripts/terrain_chunk_manager.gd
 res://Scripts/terrain_chunk.gd
 res://World.gd
+res://Scenes/trader.tscn
+res://Worker/trader.gd
+res://Worker/trading_State.gd
