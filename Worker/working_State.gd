@@ -17,7 +17,6 @@ var direction
 
 func _ready():
 	script_user = get_parent().get_script_user()
-	print(script_user)
 	pass
 
 func Enter():
@@ -49,7 +48,6 @@ func Update(_delta: float):
 	else:
 		target_nodes()
 		if workable_nodes.size() == 0 and current_attemps == max_attmepts:
-			print("Why are we sleeping")
 			#emit signal go to sleep
 			transitioned.emit(self,"Sleeping")
 

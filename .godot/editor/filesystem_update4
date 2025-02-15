@@ -13,3 +13,5 @@ res://assets/Rocks/detail_rocks.tscn
 res://assets/Rocks/detail_rocks_small.tscn
 res://Scenes/stone.tscn
 res://radio_rocket_tower.tscn
+res://Scenes/village_center.gd
+res://Scripts/terrain_chunk_manager.gd

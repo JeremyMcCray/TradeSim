@@ -52,7 +52,7 @@ func _process(_delta: float) -> void:
 func try_spawn_village(chunk_pos: Vector2i) -> void:
 	var r = randi_range(1,10)
 	if r < 9:
-		pass
+		return
 	if existing_villages.size() >= max_villages:
 		return
 	

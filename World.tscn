@@ -86,7 +86,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.291443, 3.18596, 0.379936)
 
 [node name="Terrain_Chunk_Manager" parent="." instance=ExtResource("11_sn1vj")]
 transform = Transform3D(0.999999, -0.00102585, 0.000736253, 0.00102598, 1, -0.000169492, -0.000736074, 0.000170269, 1, 0, 0, 0)
-view_distance = 4
+chunk_size = 16
+view_distance = 3
 edge_height = -8.0
 workable_node_scenes = Array[PackedScene]([ExtResource("12_uyiqx"), ExtResource("13_ivji0")])
 flatness = 0.7

@@ -41,7 +41,6 @@ func deliver_goods(deliverer):
 	
 	deliverer.inventory = {}
 	deliverer.inv_count = 0
-	print(inventory)
 	pass
 
 func add_to_inv(good_string):
@@ -58,7 +57,6 @@ func merge_dictionaries(dict1: Dictionary, dict2: Dictionary) -> Dictionary:
 	return merged
 
 func bulid_new_mill():
-	print("Bulin the mill la")
 	wood_count = inventory.get_or_add("Wood", 0)
 	stone_count = inventory.get("Stone", 0)
 	if wood_count != null and wood_count > 4 and stone_count != null and stone_count > 4 and statue == false:

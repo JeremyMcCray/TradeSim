@@ -15,7 +15,6 @@ func Exit():
 func Update(_delta: float):
 	#if Day time emit working
 	transitioned.emit(self,"Working")
-	print("pikle")
 	pass
 
 func Physics_Update(_delta: float):
