@@ -14,7 +14,6 @@ var current_center_chunk := Vector2i.ZERO
 var existing_villages := []  # Store village positions
 @onready var camera = $"../FPSCamera/Camera3D"
 
-var world_boarder
 # Pass through configuration
 @export var smooth : bool = true:
 	set(value):
@@ -35,7 +34,6 @@ func _ready() -> void:
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	update_chunks()
 
-
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_r"):  # Regenerate terrain
 		regenerate_terrain()
@@ -49,6 +47,66 @@ func _process(_delta: float) -> void:
 	if new_center_chunk != current_center_chunk:
 		current_center_chunk = new_center_chunk
 		update_chunks()
+
+func get_chunk_height(world_x: float, world_z: float) -> float:
+	var noise_value = noise.get_noise_2d(world_x, world_z)
+	var height = noise_value * 15
+	height = lerp(height, 0.0, flatness)
+	height = floor(height) / 2.0
+	return height
+
+func update_chunks() -> void:
+	var needed_chunks := {}
+	var rand
+	for x in range(-view_distance, view_distance + 1):
+		for z in range(-view_distance, view_distance + 1):
+			var chunk_pos = current_center_chunk + Vector2i(x, z)
+			needed_chunks[chunk_pos] = true
+			
+			if not chunks.has(chunk_pos):
+				create_chunk(chunk_pos)
+				rand = randi_range(1,10)
+				try_spawn_village(chunk_pos)  # Try to spawn a village in the new chunk
+	
+	# Remove chunks that are too far away
+	#for chunk_pos in chunks.keys():
+		#if not needed_chunks.has(chunk_pos):
+			#chunks[chunk_pos].queue_free()
+			#chunks.erase(chunk_pos)
+
+func create_chunk(chunk_pos: Vector2i) -> void:
+	var chunk = preload("res://Scenes/terrain_chunk.tscn").instantiate()
+	add_child(chunk)
+	
+	chunk.chunk_manager = self
+	chunk.chunk_position = chunk_pos
+	chunk.chunk_size = chunk_size
+	chunk.smooth = smooth
+	chunk.grid = grid
+	
+	chunk.position = Vector3(
+		chunk_pos.x * chunk_size,
+		0,
+		chunk_pos.y * chunk_size
+	)
+	
+	chunks[chunk_pos] = chunk
+	chunk.generate()
+
+func regenerate_terrain() -> void:
+	noise.seed = world_seed
+	
+	# Clear existing villages
+	for child in get_children():
+		if child.is_in_group("Village") or child.is_in_group("WorkableNode"):
+			child.queue_free()
+	existing_villages.clear()
+	
+	# Clear and regenerate chunks
+	for chunk in chunks.values():
+		chunk.queue_free()
+	chunks.clear()
+	update_chunks()
 
 func try_spawn_village(chunk_pos: Vector2i) -> void:
 	var r = randi_range(1,10)
@@ -153,77 +211,3 @@ func is_valid_workable_spawn(point: Vector3, existing_nodes: Array) -> bool:
 			return false
 	
 	return true
-
-func get_chunk_height(world_x: float, world_z: float) -> float:
-	var noise_value = noise.get_noise_2d(world_x, world_z)
-	var height = noise_value * 15
-	height = lerp(height, 0.0, flatness)
-	height = floor(height) / 2.0
-	return height
-
-func update_chunks() -> void:
-	var needed_chunks := {}
-	var rand
-	for x in range(-view_distance, view_distance + 1):
-		for z in range(-view_distance, view_distance + 1):
-			var chunk_pos = current_center_chunk + Vector2i(x, z)
-			needed_chunks[chunk_pos] = true
-			
-			if not chunks.has(chunk_pos):
-				create_chunk(chunk_pos)
-				rand = randi_range(1,10)
-				try_spawn_village(chunk_pos)  # Try to spawn a village in the new chunk
-	
-	# Remove chunks that are too far away
-	#for chunk_pos in chunks.keys():
-		#if not needed_chunks.has(chunk_pos):
-			#chunks[chunk_pos].queue_free()
-			#chunks.erase(chunk_pos)
-
-func create_chunk(chunk_pos: Vector2i) -> void:
-	var chunk = preload("res://Scenes/terrain_chunk.tscn").instantiate()
-	add_child(chunk)
-	
-	chunk.chunk_manager = self
-	chunk.chunk_position = chunk_pos
-	chunk.chunk_size = chunk_size
-	chunk.smooth = smooth
-	chunk.grid = grid
-	
-	chunk.position = Vector3(
-		chunk_pos.x * chunk_size,
-		0,
-		chunk_pos.y * chunk_size
-	)
-	
-	chunks[chunk_pos] = chunk
-	chunk.generate()
-
-func regenerate_terrain() -> void:
-	noise.seed = world_seed
-	
-	# Clear existing villages
-	for child in get_children():
-		if child.is_in_group("Village") or child.is_in_group("WorkableNode"):
-			child.queue_free()
-	existing_villages.clear()
-	
-	# Clear and regenerate chunks
-	for chunk in chunks.values():
-		chunk.queue_free()
-	chunks.clear()
-	update_chunks()
-
-func get_height_at_point(x: float, z: float) -> float:
-	var chunk_pos = Vector2i(
-		floor(x / chunk_size),
-		floor(z / chunk_size)
-	)
-	
-	if chunks.has(chunk_pos):
-		var chunk = chunks[chunk_pos]
-		var local_x = x - (chunk_pos.x * chunk_size)
-		var local_z = z - (chunk_pos.y * chunk_size)
-		return chunk.get_height_at_point(local_x, local_z)
-	
-	return get_chunk_height(x, z)

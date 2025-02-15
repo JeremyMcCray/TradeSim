@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=4 uid="uid://cmn7lvheq2nmm"]
+[gd_scene load_steps=16 format=4 uid="uid://cmn7lvheq2nmm"]
 
 [ext_resource type="Script" path="res://Terrain.gd" id="1_c7haq"]
+[ext_resource type="Script" path="res://World.gd" id="1_lq42p"]
 [ext_resource type="Shader" path="res://shaders/terrain.gdshader" id="2_3ifll"]
 [ext_resource type="PackedScene" uid="uid://cmvqtrxe3klxe" path="res://WaterPlane.tscn" id="2_lhqab"]
 [ext_resource type="Texture2D" uid="uid://dafqbdxij7m2l" path="res://assets/grass.jpg" id="3_c4gk5"]
@@ -40,6 +41,7 @@ _surfaces = [{
 }]
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_lq42p")
 
 [node name="WaterPlane" parent="." instance=ExtResource("2_lhqab")]
 transform = Transform3D(500, 0, 0, 0, 1.5, 0, 0, 0, 500, 0, -2.28, 0)
