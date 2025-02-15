@@ -1,0 +1,15 @@
+DirectionalLight3D
+MeshInstance3D
+Node
+AudioStreamPlayer3D
+FogVolume
+RayCast3D
+Sprite3D
+Label
+SubViewport
+VBoxContainer
+GridContainer
+AnimationPlayer
+CollisionShape3D
+StaticBody3D
+CharacterBody3D

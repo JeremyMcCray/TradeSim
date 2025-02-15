@@ -1,0 +1,142 @@
+[gd_scene load_steps=14 format=3 uid="uid://djcp47penffh8"]
+
+[ext_resource type="Script" path="res://Worker/worker.gd" id="1_040j8"]
+[ext_resource type="Script" path="res://StateMachine/State_Machine.gd" id="2_n8ou7"]
+[ext_resource type="Script" path="res://Worker/working_State.gd" id="3_kxsh4"]
+[ext_resource type="Script" path="res://Worker/deliver_goods_State.gd" id="4_q4aql"]
+[ext_resource type="Script" path="res://Worker/sleeping_State.gd" id="5_8kq3c"]
+[ext_resource type="PackedScene" uid="uid://cg0ghlnok3hxi" path="res://Scenes/hammer.tscn" id="6_f4anl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8m5s"]
+albedo_color = Color(1, 0.141176, 0.117647, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i8d5u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j42hx"]
+resource_local_to_scene = true
+
+[sub_resource type="Animation" id="Animation_psf4x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hammer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.563166, 1.22626, 0.0249858)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hammer:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_um7en"]
+resource_name = "walk"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.0129907, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7cbw6"]
+resource_name = "work"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hammer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.563166, 1.22626, 0.0249858), Vector3(-0.563166, 1.22626, 0.0249858)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hammer:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.0195, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7uoni"]
+_data = {
+"RESET": SubResource("Animation_psf4x"),
+"walk": SubResource("Animation_um7en"),
+"work": SubResource("Animation_7cbw6")
+}
+
+[node name="Worker" type="CharacterBody3D"]
+script = ExtResource("1_040j8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
+material_override = SubResource("StandardMaterial3D_q8m5s")
+mesh = SubResource("CapsuleMesh_i8d5u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02677, 0)
+shape = SubResource("CapsuleShape3D_j42hx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7uoni")
+}
+
+[node name="Hammer" parent="." instance=ExtResource("6_f4anl")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.563166, 1.22626, 0.0249858)
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user")]
+script = ExtResource("2_n8ou7")
+initial_state = NodePath("Working_State")
+script_user = NodePath("..")
+
+[node name="Working_State" type="Node" parent="StateMachine"]
+script = ExtResource("3_kxsh4")
+
+[node name="Deliver_Goods_State" type="Node" parent="StateMachine"]
+script = ExtResource("4_q4aql")
+
+[node name="Sleeping_State" type="Node" parent="StateMachine"]
+script = ExtResource("5_8kq3c")

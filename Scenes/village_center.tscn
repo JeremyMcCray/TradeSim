@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dc0qng0l0qjfq"]
+
+[ext_resource type="Script" path="res://Scenes/village_center.gd" id="1_umglb"]
+[ext_resource type="PackedScene" uid="uid://b1mmxn0xtimt6" path="res://assets/Package/SmallBuilding01.obj" id="2_awx6f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_haxf4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j5ylj"]
+
+[node name="VillageCenter" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_umglb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_haxf4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("BoxMesh_j5ylj")
+skeleton = NodePath("../..")
+
+[node name="SmallBuilding01" parent="." instance=ExtResource("2_awx6f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.463624, 0)

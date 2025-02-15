@@ -1,0 +1,15 @@
+res://World.tscn
+res://Scripts/tree.gd
+res://Worker/worker.gd
+res://StateMachine/State_Machine.gd
+res://Worker/working_State.gd
+res://Worker/deliver_goods_State.gd
+res://Worker/sleeping_State.gd
+res://StateMachine/wood_Good.gd
+res://Worker/worker.tscn
+res://Scenes/village_center.tscn
+res://Scenes/tree.tscn
+res://assets/Rocks/detail_rocks.tscn
+res://assets/Rocks/detail_rocks_small.tscn
+res://Scenes/stone.tscn
+res://radio_rocket_tower.tscn

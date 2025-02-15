@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://fr6rp36n8f25"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_njqq8"]
+viewport_path = NodePath(".")
+
+[node name="Inventory" type="SubViewport"]
+disable_3d = true
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Testing123"
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 3.13077, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_njqq8")

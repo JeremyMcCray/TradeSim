@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bihmlmyoeo5xm"
+path="res://.godot/imported/ComDish.obj-382e37df9409303f5f331362e0055a23.mesh"
+
+[deps]
+
+files=["res://.godot/imported/ComDish.obj-382e37df9409303f5f331362e0055a23.mesh"]
+
+source_file="res://assets/Dish_OBJ/ComDish.obj"
+dest_files=["res://.godot/imported/ComDish.obj-382e37df9409303f5f331362e0055a23.mesh", "res://.godot/imported/ComDish.obj-382e37df9409303f5f331362e0055a23.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

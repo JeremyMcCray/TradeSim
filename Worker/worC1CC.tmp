@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=3 uid="uid://djcp47penffh8"]
+
+[ext_resource type="Script" path="res://Worker/worker.gd" id="1_040j8"]
+[ext_resource type="Script" path="res://StateMachine/State_Machine.gd" id="2_n8ou7"]
+[ext_resource type="Script" path="res://Worker/working_State.gd" id="3_kxsh4"]
+[ext_resource type="Script" path="res://Worker/deliver_goods_State.gd" id="4_q4aql"]
+[ext_resource type="Script" path="res://Worker/sleeping_State.gd" id="5_8kq3c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8m5s"]
+albedo_color = Color(1, 0.141176, 0.117647, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i8d5u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j42hx"]
+
+[node name="Worker" type="CharacterBody3D"]
+script = ExtResource("1_040j8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
+material_override = SubResource("StandardMaterial3D_q8m5s")
+mesh = SubResource("CapsuleMesh_i8d5u")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.02677, 0)
+shape = SubResource("CapsuleShape3D_j42hx")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user")]
+script = ExtResource("2_n8ou7")
+initial_state = NodePath("Working_State")
+script_user = NodePath("..")
+
+[node name="Working_State" type="Node" parent="StateMachine"]
+script = ExtResource("3_kxsh4")
+
+[node name="Delivering_Goods_State" type="Node" parent="StateMachine"]
+script = ExtResource("4_q4aql")
+
+[node name="Sleeping_State" type="Node" parent="StateMachine"]
+script = ExtResource("5_8kq3c")

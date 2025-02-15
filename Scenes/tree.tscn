@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbxftwxnhq62f"]
+
+[ext_resource type="Script" path="res://Scripts/tree.gd" id="1_au20b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i5dy4"]
+size = Vector3(1.08884, 2.00488, 1.02615)
+
+[node name="Tree" type="StaticBody3D"]
+script = ExtResource("1_au20b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0258946, -0.00244141, -0.00123662)
+shape = SubResource("BoxShape3D_i5dy4")
