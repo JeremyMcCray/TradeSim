@@ -15,3 +15,4 @@ res://Scenes/stone.tscn
 res://radio_rocket_tower.tscn
 res://Scenes/village_center.gd
 res://Scripts/terrain_chunk_manager.gd
+res://Scripts/terrain_chunk.gd

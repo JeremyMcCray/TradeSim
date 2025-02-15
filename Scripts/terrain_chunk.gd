@@ -44,7 +44,7 @@ func generate_mesh() -> void:
 	var surface_tool := SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
-	var uv_scale = 0.1  # Adjust this to control texture tiling
+	var uv_scale = 0.1 # Adjust this to control texture tiling
 	
 	for x in range(chunk_size):
 		for z in range(chunk_size):
@@ -167,6 +167,7 @@ func add_smooth_quad(surface_tool: SurfaceTool,
 func smoothstep(edge0: float, edge1: float, x: float) -> float:
 	var t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0)
 	return t * t * (3.0 - 2.0 * t)
+
 func generate_collision() -> void:
 	var collision_vertices = PackedVector3Array()
 	

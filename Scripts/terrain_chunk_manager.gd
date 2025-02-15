@@ -1,5 +1,6 @@
 extends Node3D
 
+@export var world_seed := randi_range(10000000,20000000)
 @export var chunk_size := 64  # Size of each chunk in vertices
 @export var view_distance := 10  # Number of chunks to load in each direction
 @export var noise : FastNoiseLite
@@ -199,7 +200,7 @@ func create_chunk(chunk_pos: Vector2i) -> void:
 	chunk.generate()
 
 func regenerate_terrain() -> void:
-	noise.seed = randi()
+	noise.seed = world_seed
 	
 	# Clear existing villages
 	for child in get_children():
