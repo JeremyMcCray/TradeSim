@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cinkwyci1ftsm"]
+[gd_scene load_steps=12 format=3 uid="uid://cinkwyci1ftsm"]
 
 [ext_resource type="Script" path="res://Worker/worker.gd" id="1_f6lmh"]
 [ext_resource type="Script" path="res://StateMachine/State_Machine.gd" id="2_6tfoa"]
+[ext_resource type="Script" path="res://Worker/trading_State.gd" id="3_2wn4h"]
 [ext_resource type="Script" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r8rx"]
@@ -80,6 +81,7 @@ initial_state = NodePath("TradingState")
 script_user = NodePath("..")
 
 [node name="TradingState" type="Node" parent="StateMachine"]
+script = ExtResource("3_2wn4h")
 
 [node name="TravelingState" type="Node" parent="StateMachine"]
 

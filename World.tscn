@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://cmn7lvheq2nmm"]
+[gd_scene load_steps=13 format=4 uid="uid://cmn7lvheq2nmm"]
 
 [ext_resource type="Script" path="res://Terrain.gd" id="1_c7haq"]
 [ext_resource type="Shader" path="res://shaders/terrain.gdshader" id="2_3ifll"]
@@ -9,8 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://cyyu3wxv3epas" path="res://assets/sand.jpg" id="5_af20r"]
 [ext_resource type="PackedScene" uid="uid://bxx5dcw1rwg1t" path="res://Scenes/character.tscn" id="10_yb7ig"]
 [ext_resource type="PackedScene" uid="uid://6of7rdp0nite" path="res://Scenes/terrain_chunk_manager.tscn" id="11_sn1vj"]
-[ext_resource type="PackedScene" uid="uid://ce4h3k2imcgx" path="res://Scenes/stone.tscn" id="12_uyiqx"]
-[ext_resource type="PackedScene" uid="uid://bbxftwxnhq62f" path="res://Scenes/tree.tscn" id="13_ivji0"]
 
 [sub_resource type="Environment" id="Environment_frnig"]
 ambient_light_color = Color(0.47451, 0.658824, 0.945098, 1)
@@ -86,6 +84,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.291443, 3.18596, 0.379936)
 transform = Transform3D(0.999999, -0.00102585, 0.000736253, 0.00102598, 1, -0.000169492, -0.000736074, 0.000170269, 1, 0, 0, 0)
 chunk_size = 16
 view_distance = 3
-workable_node_scenes = Array[PackedScene]([ExtResource("12_uyiqx"), ExtResource("13_ivji0")])
-flatness = 0.7
 grid = true

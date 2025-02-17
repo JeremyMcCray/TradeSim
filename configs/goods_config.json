@@ -1,0 +1,21 @@
+{
+	"stone": {
+		"good_name": "Stone",
+		"resource_paths": [
+			"res://assets/Rocks/detail_rocks.tscn",
+			"res://assets/Rocks/detail_rocks_small.tscn"
+		],
+		"tick_timer": 200,
+		"spawn_weight": 2.0
+	},
+	"wood": {
+		"good_name": "Wood",
+		"resource_paths": [
+			"res://assets/Trees/detail_tree_a.tscn",
+			"res://assets/Trees/detail_tree_b.tscn",
+			"res://assets/Trees/detail_tree_c.tscn"
+		],
+		"tick_timer": 300,
+		"spawn_weight": 1.0
+	}
+}

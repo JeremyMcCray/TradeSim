@@ -1,8 +1,9 @@
+# good.gd
 class_name Good
 extends StaticBody3D
 
 @export var good_name: String = "Generic Good"
-@export var resource_paths: Array[String] = []
+@export var resource_paths: Array = []
 @export var tick_timer: int = 200
 
 var ready_to_work: bool = true
@@ -25,22 +26,3 @@ func work_node(gatherer) -> void:
 	if ready_to_work:
 		gatherer.add_to_inv(good_name)
 		ready_to_work = false
-
-
-func create_stone() -> Good:
-	var stone = Good.new()
-	stone.good_name = "Stone"
-	stone.resource_paths = [
-		"res://assets/Rocks/detail_rocks.tscn", 
-		"res://assets/Rocks/detail_rocks_small.tscn"
-	]
-	return stone
-
-func create_wood() -> Good:
-	var wood = Good.new()
-	wood.good_name = "Wood"
-	wood.resource_paths = [
-		"res://assets/Trees/pine_tree.tscn", 
-		"res://assets/Trees/oak_tree.tscn"
-	]
-	return wood

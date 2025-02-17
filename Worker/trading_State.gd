@@ -1,7 +1,11 @@
 extends State
 class_name Trading
 
+var scriptUser : CharacterBody2D
+var villageInventory
+
 func _ready():
+	get_parent().get_script_user()
 	pass
 
 func Enter():
@@ -24,9 +28,17 @@ func Physics_Update(_delta: float):
 #Emit DecidingDestinationState
 
 func trade():
+	villageInventory = scriptUser.currentVillage.inventory
+	var itemsToTrade = decideExchangeableGoods()
+	
+	scriptUser.currentVillage.offer(itemsToTrade)
 #Get Inventory from current village
 #Decide Wants to buy/ wants to sell
 #Haggle
 #Add/Remove traded items
 #Emit DecidingDestinationState
-	transitioned.emit(self,"Working")
+	transitioned.emit(self,"DecidingDestination_State")
+
+func decideExchangeableGoods():
+	pass
+	

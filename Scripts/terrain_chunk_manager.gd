@@ -5,7 +5,6 @@ extends Node3D
 @export var view_distance := 10  # Number of chunks to load in each direction
 @export var noise : FastNoiseLite
 @export var edge_height : float = -2.5
-@export var workable_node_scenes : Array[PackedScene] = []
 @export var max_villages := 15
 @export var village_spawn_minimum_distance := 200.0
 @export var flatness = 0.5
@@ -13,6 +12,8 @@ var chunks := {}  # Dictionary to store active chunks
 var current_center_chunk := Vector2i.ZERO
 var existing_villages := []  # Store village positions
 @onready var camera = $"../FPSCamera/Camera3D"
+
+var good_placer
 
 var world_boarder
 # Pass through configuration
@@ -33,6 +34,7 @@ func _ready() -> void:
 		noise = FastNoiseLite.new()
 	noise.frequency = 0.01
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	good_placer = GoodPlacer.new()
 	update_chunks()
 
 func _process(_delta: float) -> void:
@@ -74,7 +76,7 @@ func try_spawn_village(chunk_pos: Vector2i) -> void:
 			village.global_position = spawn_point
 			add_child(village)
 			existing_villages.append(spawn_point)
-			spawn_workable_nodes(village)
+			good_placer.spawn_workable_nodes(village,noise)
 			break
 			
 		attempts += 1
@@ -108,50 +110,6 @@ func calculate_terrain_slope(point: Vector3) -> float:
 	
 	var max_height_diff = abs(heights.max() - heights.min())
 	return atan(max_height_diff / (sample_distance * 2))
-
-func spawn_workable_nodes(village) -> void:
-	var spawned_workable_nodes = []
-	var min_distance = 8.0
-	var max_distance = 60.0
-	
-	for i in range(25):
-		var attempts = 0
-		var max_attempts = 50
-		
-		while attempts < max_attempts:
-			var angle = randf() * 2 * PI
-			var distance = lerp(min_distance, max_distance, randf())
-			
-			var x = village.global_position.x + cos(angle) * distance
-			var z = village.global_position.z + sin(angle) * distance
-			var y = get_chunk_height(x, z)
-			
-			var spawn_point = Vector3(x, y + 1, z)
-			
-			if is_valid_workable_spawn(spawn_point, spawned_workable_nodes):
-				var workable_node = workable_node_scenes.pick_random().instantiate()
-				village.add_child(workable_node)
-				spawned_workable_nodes.append(spawn_point)
-				workable_node.add_to_group("WorkableNode")
-				workable_node.global_position = spawn_point
-				break
-				
-			attempts += 1
-
-func is_valid_workable_spawn(point: Vector3, existing_nodes: Array) -> bool:
-	if point.y < edge_height + 1 or point.y > 5:
-		return false
-	
-	var slope = calculate_terrain_slope(point)
-	if slope > deg_to_rad(10.0):
-		return false
-	
-	# Check distance to other workable nodes
-	for node_pos in existing_nodes:
-		if point.distance_to(node_pos) < 2:
-			return false
-	
-	return true
 
 func get_chunk_height(world_x: float, world_z: float) -> float:
 	var noise_value = noise.get_noise_2d(world_x, world_z)
