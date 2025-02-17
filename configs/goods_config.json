@@ -16,6 +16,6 @@
 			"res://assets/Trees/detail_tree_c.tscn"
 		],
 		"tick_timer": 300,
-		"spawn_weight": 1.0
+		"spawn_weight": 1.0,
 	}
 }

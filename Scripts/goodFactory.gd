@@ -26,8 +26,6 @@ func create_good(good_type: String) -> Good:
 	# Apply configuration
 	for property in good_data:
 		good.set(property, good_data[property])
-		good.good_name
-	
 	return good
 
 func get_good_types() -> Array:

@@ -68,7 +68,7 @@ func get_chunk_height(world_x: float, world_z: float, noise) -> float:
 	height = lerp(height, 0.0, flatness)
 	height = floor(height) / 2.0
 	return height
-
+	
 func calculate_terrain_slope(point: Vector3, noise) -> float:
 	var sample_distance = 1.0
 	var points = [

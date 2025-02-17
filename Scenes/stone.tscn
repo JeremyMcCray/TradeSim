@@ -1,12 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://ce4h3k2imcgx"]
+[gd_scene load_steps=3 format=3 uid="uid://b0jovcb07mg2i"]
 
-[ext_resource type="Script" path="res://Scripts/stone_Good.gd" id="1_dea7w"]
+[sub_resource type="GDScript" id="GDScript_1wq5k"]
+script/source = "extends StaticBody3D
+
+var tick_timer = 200
+var ready_to_work = true
+var tick = 0
+
+var rock_scene_list = [\"res://assets/Rocks/detail_rocks.tscn\", \"res://assets/Rocks/detail_rocks_small.tscn\"]
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	var packed = load(rock_scene_list[randi_range(0,rock_scene_list.size()-1)])
+	var goods = packed.instantiate()
+	self.add_child(goods)
+	goods.set_global_position(Vector3(self.global_position.x,self.global_position.y - 1,self.global_position.z))
+
+	goods.rotation = Vector3(0,randf(),0)
+
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if tick % tick_timer == 0:
+		ready_to_work = true
+	tick += 1
+
+
+func work_node(gatherer):
+	if ready_to_work == true:
+		gatherer.add_to_inv(\"Stone\")
+		ready_to_work = false
+"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i5dy4"]
 size = Vector3(1.11807, 2.24658, 1.16904)
 
 [node name="Stone" type="StaticBody3D"]
-script = ExtResource("1_dea7w")
+script = SubResource("GDScript_1wq5k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.236679, -0.123291, -0.113296)
