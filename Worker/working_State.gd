@@ -37,7 +37,7 @@ func Exit():
 func Update(_delta: float):
 	if script_user.inv_count >= script_user.max_inv:
 		transitioned.emit(self,"deliver_goods_state")
-
+	
 	if current_node:
 		script_user.destination = current_node.global_position
 		if script_user.global_position.distance_to(current_node.global_position) < work_range:

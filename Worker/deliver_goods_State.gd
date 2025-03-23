@@ -8,7 +8,7 @@ var direction
 
 func _ready():
 	script_user = get_parent().get_script_user()
-	village = script_user.get_village()
+	village = script_user.village
 	pass
 
 func Enter():

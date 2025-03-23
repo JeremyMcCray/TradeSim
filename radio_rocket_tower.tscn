@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dik1jojko7svo"]
 
-[ext_resource type="Script" path="res://Scripts/radio_rocket_tower.gd" id="1_8t85i"]
+[ext_resource type="Script" uid="uid://b1nxfavr44e0k" path="res://Scripts/radio_rocket_tower.gd" id="1_8t85i"]
 [ext_resource type="AudioStream" uid="uid://b5xvibjgtnr5q" path="res://Sound/Red sun in the sky.mp3" id="1_drw4x"]
 [ext_resource type="Texture2D" uid="uid://o3u52k3sgsft" path="res://assets/Dish_OBJ/DishDEAD.jpg" id="3_0u1lr"]
 [ext_resource type="ArrayMesh" uid="uid://bihmlmyoeo5xm" path="res://assets/Dish_OBJ/ComDish.obj" id="4_1tn5l"]

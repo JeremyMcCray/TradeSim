@@ -1,13 +1,14 @@
 extends CharacterBody3D
 
+@onready var animation_player = $AnimationPlayer
+
+#Movement Based Vars
 @export var SPEED = 5.0
 @export var ACCELERATION = 15.0
 @export var JUMP_VELOCITY = 4.5
 @export var ROTATION_SPEED = 10.0
 @export var OBSTACLE_DETECTION_RANGE = 1.8
 @export var AVOIDANCE_FORCE = 2.0
-
-var current_target
 # Get the gravity from the project settings to be synced with RigidBody nodes
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -15,14 +16,15 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var ray_angles = [0, 25, 45, -25, -45, 90, -90, 180, -180]  # Angles for raycasts (in degrees)
 var rays = []
 
-var inventory = {}
+var current_target
 var destination = Vector3(0, 0, 0)
+
 var village
+
+var inventory = {}
+var current_gold = 100 #They spawn with 100 gold
 var inv_count = 0
-var max_inv = 3
-
-@onready var animation_player = $AnimationPlayer
-
+var max_inv = 4
 
 func _ready():
 	for angle in ray_angles:
@@ -36,21 +38,13 @@ func _ready():
 		ray2.target_position = Vector3(0, 1, 1) * OBSTACLE_DETECTION_RANGE
 		ray2.rotate_y(deg_to_rad(angle))
 		rays.append(ray2)
-	pass
 
 func add_to_inv(good_string):
 	var resource = inventory.get_or_add(good_string, 0)
 	inventory[good_string] = resource + 1
-	inv_count += 1
 
 func _process(delta):
 	pass
-
-func get_village():
-	return village
-
-func get_animation_player():
-	return animation_player
 
 func move_worker(target):
 	current_target = target
@@ -109,10 +103,6 @@ func move_worker(target):
 	# Optional: Jump if needed and on floor
 	# if Input.is_action_just_pressed("jump") and is_on_floor():
 	#     velocity.y = JUMP_VELOCITY
-
-# Function to set new target
-func set_target(target: Node3D):
-	current_target = target
 
 # Function to get distance to current target
 func distance_to_target() -> float:

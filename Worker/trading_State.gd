@@ -3,12 +3,14 @@ class_name Trading
 
 var scriptUser : CharacterBody2D
 var villageInventory
+var inventory
 
 func _ready():
-	get_parent().get_script_user()
+	scriptUser = get_parent().get_script_user()
 	pass
 
 func Enter():
+	inventory = scriptUser.inventory
 	pass
 
 func Exit():
@@ -19,7 +21,6 @@ func Update(_delta: float):
 
 func Physics_Update(_delta: float):
 	pass
-
 
 #Get Inventory from current village
 #Decide Wants to buy/ wants to sell

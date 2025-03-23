@@ -38,7 +38,6 @@ func spawn_workers():
 
 func deliver_goods(deliverer):
 	inventory = merge_dictionaries(deliverer.inventory, inventory)
-	
 	deliverer.inventory = {}
 	deliverer.inv_count = 0
 	pass

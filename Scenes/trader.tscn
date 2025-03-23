@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://cinkwyci1ftsm"]
 
-[ext_resource type="Script" path="res://Worker/worker.gd" id="1_f6lmh"]
-[ext_resource type="Script" path="res://StateMachine/State_Machine.gd" id="2_6tfoa"]
-[ext_resource type="Script" path="res://Worker/trading_State.gd" id="3_2wn4h"]
-[ext_resource type="Script" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
+[ext_resource type="Script" uid="uid://bntjx2324i8j1" path="res://Worker/worker.gd" id="1_f6lmh"]
+[ext_resource type="Script" uid="uid://ckcam80l6u52b" path="res://StateMachine/State_Machine.gd" id="2_6tfoa"]
+[ext_resource type="Script" uid="uid://cabv2xf0leoua" path="res://Worker/trading_State.gd" id="3_2wn4h"]
+[ext_resource type="Script" uid="uid://bw7qupt4665ys" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r8rx"]
 albedo_color = Color(0.832401, 0.150553, 0.881366, 1)
@@ -52,9 +52,9 @@ loop_mode = 1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7uoni"]
 _data = {
-"RESET": SubResource("Animation_psf4x"),
-"walk": SubResource("Animation_um7en"),
-"work": SubResource("Animation_7cbw6")
+&"RESET": SubResource("Animation_psf4x"),
+&"walk": SubResource("Animation_um7en"),
+&"work": SubResource("Animation_7cbw6")
 }
 
 [node name="Trader" type="CharacterBody3D"]
@@ -72,7 +72,7 @@ shape = SubResource("CapsuleShape3D_qv0se")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_7uoni")
+&"": SubResource("AnimationLibrary_7uoni")
 }
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user")]

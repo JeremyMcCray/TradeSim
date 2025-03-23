@@ -25,4 +25,5 @@ func _process(delta: float) -> void:
 func work_node(gatherer) -> void:
 	if ready_to_work:
 		gatherer.add_to_inv(good_name)
+		gatherer.inv_count += 1
 		ready_to_work = false

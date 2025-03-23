@@ -17,5 +17,13 @@
 		],
 		"tick_timer": 300,
 		"spawn_weight": 1.0,
+	},
+		"food": {
+		"good_name": "Food",
+		"resource_paths": [
+			"res://assets/Goods/wheat.tscn"
+		],
+		"tick_timer": 200,
+		"spawn_weight": 4.0
 	}
 }
