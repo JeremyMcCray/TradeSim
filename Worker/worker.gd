@@ -3,7 +3,7 @@ extends CharacterBody3D
 @onready var animation_player = $AnimationPlayer
 
 #Movement Based Vars
-@export var SPEED = 5.0
+@export var SPEED = 35.0
 @export var ACCELERATION = 15.0
 @export var JUMP_VELOCITY = 4.5
 @export var ROTATION_SPEED = 10.0
@@ -22,11 +22,12 @@ var destination = Vector3(0, 0, 0)
 var village
 
 var inventory = {}
-var current_gold = 100 #They spawn with 100 gold
+var gold = 100 #They spawn with 100 gold
 var inv_count = 0
 var max_inv = 4
 
 func _ready():
+	self.add_to_group("worker")
 	for angle in ray_angles:
 		var ray = RayCast3D.new()
 		add_child(ray)
@@ -43,9 +44,6 @@ func add_to_inv(good_string):
 	var resource = inventory.get_or_add(good_string, 0)
 	inventory[good_string] = resource + 1
 
-func _process(delta):
-	pass
-
 func move_worker(target):
 	current_target = target
 	var delta = get_physics_process_delta_time()
@@ -53,7 +51,9 @@ func move_worker(target):
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	
+
+	if position.y < -10:
+		self.global_position = village.global_position
 	# Calculate base direction to target
 	var target_direction = (current_target.global_position - global_position)
 	target_direction.y = 0  # Keep movement on the horizontal plane

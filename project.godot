@@ -15,6 +15,15 @@ run/main_scene="res://World.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.svg"
 
+[autoload]
+
+Global="*res://Scripts/global.gd"
+
+[global_group]
+
+workers=""
+traders=""
+
 [input]
 
 camera_forward={

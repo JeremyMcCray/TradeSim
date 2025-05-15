@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://cinkwyci1ftsm"]
+[gd_scene load_steps=13 format=3 uid="uid://cinkwyci1ftsm"]
 
-[ext_resource type="Script" uid="uid://bntjx2324i8j1" path="res://Worker/worker.gd" id="1_f6lmh"]
-[ext_resource type="Script" uid="uid://ckcam80l6u52b" path="res://StateMachine/State_Machine.gd" id="2_6tfoa"]
-[ext_resource type="Script" uid="uid://cabv2xf0leoua" path="res://Worker/trading_State.gd" id="3_2wn4h"]
+[ext_resource type="Script" uid="uid://crchmrppxce3c" path="res://Worker/trader.gd" id="1_r20j2"]
+[ext_resource type="Script" uid="uid://c1048xd7x5phf" path="res://Scripts/Trader_State_Machine.gd" id="2_r20j2"]
+[ext_resource type="Script" uid="uid://cabv2xf0leoua" path="res://Scripts/trading_State.gd" id="3_2wn4h"]
+[ext_resource type="Script" uid="uid://b64a5mnuaixdp" path="res://Scripts/traveling_state.gd" id="4_xdxcm"]
 [ext_resource type="Script" uid="uid://bw7qupt4665ys" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r8rx"]
@@ -59,7 +60,7 @@ _data = {
 
 [node name="Trader" type="CharacterBody3D"]
 collision_layer = 2
-script = ExtResource("1_f6lmh")
+script = ExtResource("1_r20j2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
@@ -75,17 +76,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_7uoni")
 }
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user")]
-script = ExtResource("2_6tfoa")
-initial_state = NodePath("TradingState")
+[node name="Trader_StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user") groups=["traders"]]
+script = ExtResource("2_r20j2")
+initial_state = NodePath("TravelingState")
 script_user = NodePath("..")
 
-[node name="TradingState" type="Node" parent="StateMachine"]
+[node name="TradingState" type="Node" parent="Trader_StateMachine"]
 script = ExtResource("3_2wn4h")
 
-[node name="TravelingState" type="Node" parent="StateMachine"]
+[node name="TravelingState" type="Node" parent="Trader_StateMachine"]
+script = ExtResource("4_xdxcm")
 
-[node name="DecidingDestinationState" type="Node" parent="StateMachine"]
-
-[node name="SleepingState" type="Node" parent="StateMachine"]
+[node name="SleepingState" type="Node" parent="Trader_StateMachine"]
 script = ExtResource("5_fugnv")

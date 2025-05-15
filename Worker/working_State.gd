@@ -11,13 +11,10 @@ var work_range = 3
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var script_user
-
-
 var direction
 
 func _ready():
 	script_user = get_parent().get_script_user()
-	pass
 
 func Enter():
 	current_attemps = 0
@@ -29,10 +26,7 @@ func Enter():
 	
 	if workable_nodes.size() > 0:
 		current_node = workable_nodes[randi_range(0,workable_nodes.size() - 1)]
-	pass
 
-func Exit():
-	pass
 
 func Update(_delta: float):
 	if script_user.inv_count >= script_user.max_inv:

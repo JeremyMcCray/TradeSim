@@ -1,6 +1,10 @@
 extends CharacterBody3D
 
-@export var SPEED = 5.0
+
+@onready var trader_ui = $UIPosition/TraderUI
+@onready var ui_position = $UIPosition
+
+@export var SPEED = 55.0
 @export var ACCELERATION = 15.0
 @export var JUMP_VELOCITY = 4.5
 @export var ROTATION_SPEED = 10.0
@@ -15,7 +19,11 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var ray_angles = [0, 25, 45, -25, -45, 90, -90, 180, -180]  # Angles for raycasts (in degrees)
 var rays = []
 
-var inventory = {}
+var goods_config
+var prices = {}
+
+var gold = 1000
+var inventory = {"Wood":0}
 var destination = Vector3(0, 0, 0)
 var village
 var inv_count = 0
@@ -23,8 +31,9 @@ var max_inv = 3
 
 @onready var animation_player = $AnimationPlayer
 
-
 func _ready():
+	goods_config = load("res://configs/goods_config.json").get_data()
+	initialize_prices()
 	for angle in ray_angles:
 		var ray = RayCast3D.new()
 		add_child(ray)
@@ -36,15 +45,17 @@ func _ready():
 		ray2.target_position = Vector3(0, 1, 1) * OBSTACLE_DETECTION_RANGE
 		ray2.rotate_y(deg_to_rad(angle))
 		rays.append(ray2)
-	pass
+
+
+# Initialize prices with base values from config
+func initialize_prices():
+	for good_key in goods_config:
+		prices[good_key] = goods_config[good_key].base_price
 
 func add_to_inv(good_string):
 	var resource = inventory.get_or_add(good_string, 0)
 	inventory[good_string] = resource + 1
 	inv_count += 1
-
-func _process(delta):
-	pass
 
 func get_animation_player():
 	return animation_player
@@ -56,7 +67,8 @@ func move_worker(target):
 	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	
+	if position.y < -10:
+		self.global_position = current_target.global_position
 	# Calculate base direction to target
 	var target_direction = (current_target.global_position - global_position)
 	target_direction.y = 0  # Keep movement on the horizontal plane

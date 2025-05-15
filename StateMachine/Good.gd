@@ -4,6 +4,7 @@ extends StaticBody3D
 
 @export var good_name: String = "Generic Good"
 @export var resource_paths: Array = []
+@export var base_cost : int = 0
 @export var tick_timer: int = 200
 
 var ready_to_work: bool = true

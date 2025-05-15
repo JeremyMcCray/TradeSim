@@ -128,9 +128,9 @@ libraries = {
 [node name="Hammer" parent="." instance=ExtResource("6_f4anl")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.563166, 1.22626, 0.0249858)
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user")]
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "script_user") groups=["workers"]]
 script = ExtResource("2_n8ou7")
-initial_state = NodePath("Sleeping_State")
+initial_state = NodePath("Working_State")
 script_user = NodePath("..")
 
 [node name="Working_State" type="Node" parent="StateMachine"]

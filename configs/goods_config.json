@@ -6,7 +6,11 @@
 			"res://assets/Rocks/detail_rocks_small.tscn"
 		],
 		"tick_timer": 200,
-		"spawn_weight": 2.0
+		"spawn_weight": 2.0,
+		"base_price": 5,
+		"price_sensitivity": 0.1,
+		"min_price": 2.0,           
+		"max_price": 15.0           
 	},
 	"wood": {
 		"good_name": "Wood",
@@ -17,13 +21,21 @@
 		],
 		"tick_timer": 300,
 		"spawn_weight": 1.0,
+		"base_price": 10,
+		"price_sensitivity": 0.1,
+		"min_price": 2.0,           
+		"max_price": 15.0     
 	},
-		"food": {
+	"food": {
 		"good_name": "Food",
 		"resource_paths": [
 			"res://assets/Goods/wheat.tscn"
 		],
 		"tick_timer": 200,
-		"spawn_weight": 4.0
+		"spawn_weight": 4.0,
+		"base_price": 15,
+		"price_sensitivity": 0.2,
+		"min_price": 1.0,           
+		"max_price": 45.0   
 	}
 }

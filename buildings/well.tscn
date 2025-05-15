@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmpb7efwgfmkm"]
+
+[ext_resource type="ArrayMesh" uid="uid://m5lrqm7r0tua" path="res://assets/KayKitModels/well.obj" id="1_7wm30"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Well" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_7wm30")
