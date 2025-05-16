@@ -18,3 +18,7 @@ res://assets/highFantasyBuildings/Hut/hut.tscn
 res://assets/highFantasyBuildings/WatchTower/watch_tower.tscn
 res://assets/highFantasyBuildings/Walls/Tower/tower.tscn
 res://assets/highFantasyBuildings/Walls/WallMid/wall_mid.tscn
+res://Scripts/good_placer.gd
+res://Worker/trader.gd
+res://assets/VillagerModels/scenes/gamir_bow_levy.tscn
+res://assets/VillagerModels/scenes/druidess.tscn

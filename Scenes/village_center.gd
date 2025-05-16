@@ -157,7 +157,7 @@ func build_building(building_name: String, building_data: Dictionary):
 	# Instantiate and place the building
 	var building_scene = building_data["scene"].instantiate()
 	self.add_child(building_scene)
-	building_scene.scale *= Vector3(5,5,5)
+	building_scene.scale *= Vector3(2,2,2)
 	
 	building_scene.set_global_position(
 		Vector3(

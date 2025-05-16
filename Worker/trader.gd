@@ -65,7 +65,7 @@ func move_worker(target):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	if position.y < -10:
-		self.global_position = current_target.global_position
+		self.global_position = village.global_position
 	# Calculate base direction to target
 	var target_direction = (current_target.global_position - global_position)
 	target_direction.y = 0  # Keep movement on the horizontal plane

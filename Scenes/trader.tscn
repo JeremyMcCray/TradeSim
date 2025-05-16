@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://cinkwyci1ftsm"]
+[gd_scene load_steps=14 format=3 uid="uid://cinkwyci1ftsm"]
 
 [ext_resource type="Script" uid="uid://crchmrppxce3c" path="res://Worker/trader.gd" id="1_r20j2"]
 [ext_resource type="Script" uid="uid://c1048xd7x5phf" path="res://Scripts/Trader_State_Machine.gd" id="2_r20j2"]
 [ext_resource type="Script" uid="uid://cabv2xf0leoua" path="res://Scripts/trading_State.gd" id="3_2wn4h"]
 [ext_resource type="Script" uid="uid://b64a5mnuaixdp" path="res://Scripts/traveling_state.gd" id="4_xdxcm"]
 [ext_resource type="Script" uid="uid://bw7qupt4665ys" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
+[ext_resource type="PackedScene" uid="uid://ddebboa0livhh" path="res://assets/VillagerModels/scenes/druidess.tscn" id="6_xdxcm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r8rx"]
 albedo_color = Color(0.832401, 0.150553, 0.881366, 1)
@@ -64,6 +65,7 @@ script = ExtResource("1_r20j2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_4r8rx")
 mesh = SubResource("CapsuleMesh_i8d5u")
 
@@ -89,3 +91,6 @@ script = ExtResource("4_xdxcm")
 
 [node name="SleepingState" type="Node" parent="Trader_StateMachine"]
 script = ExtResource("5_fugnv")
+
+[node name="druidess" parent="." instance=ExtResource("6_xdxcm")]
+transform = Transform3D(-0.999922, 0.00844845, -0.00922206, 0.00848176, 0.999958, -0.00357963, 0.00919143, -0.00365757, -0.999951, 0, 0, 0)
