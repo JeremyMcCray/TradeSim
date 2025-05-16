@@ -1,5 +1,4 @@
 res://Scenes/village_center.tscn
-res://Scripts/Inventory.gd
 res://Scenes/village_center.gd
 res://Worker/worker.gd
 res://StateMachine/State_Machine.gd
@@ -13,6 +12,9 @@ res://buildings/house.tscn
 res://World.tscn
 res://Worker/worker.tscn
 res://Scenes/trader.tscn
-res://Worker/trader.gd
-res://Scripts/terrain_chunk_manager.gd
-res://Scripts/global.gd
+res://assets/highFantasyBuildings/Barracks/barracks.tscn
+res://assets/highFantasyBuildings/TownCenter/town_center.tscn
+res://assets/highFantasyBuildings/Hut/hut.tscn
+res://assets/highFantasyBuildings/WatchTower/watch_tower.tscn
+res://assets/highFantasyBuildings/Walls/Tower/tower.tscn
+res://assets/highFantasyBuildings/Walls/WallMid/wall_mid.tscn

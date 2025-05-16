@@ -14,16 +14,16 @@ var goods_config
 
 # Dictionary of available buildings with their costs
 var available_buildings = {
-	"lumbermill": {
-		"scene": preload("res://assets/KayKitModels/lumbermill.obj"),
+	"watchtower": {
+		"scene": preload("res://assets/highFantasyBuildings/WatchTower/watch_tower.tscn"),
 		"cost": {"Wood": 4, "Stone": 4}
 	},
-	"well": {
-		"scene": preload("res://buildings/well.tscn"),
+	"barraks": {
+		"scene": preload("res://assets/highFantasyBuildings/Barracks/barracks.tscn"),
 		"cost": {"Wood": 1, "Stone": 5}
 	},
 		"house": {
-		"scene": preload("res://buildings/house.tscn"),
+		"scene": preload("res://assets/highFantasyBuildings/Hut/hut.tscn"),
 		"cost": {"Wood": 4, "Stone": 2}
 	},
 }
