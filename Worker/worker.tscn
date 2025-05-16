@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://djcp47penffh8"]
+[gd_scene load_steps=17 format=3 uid="uid://djcp47penffh8"]
 
 [ext_resource type="Script" uid="uid://bntjx2324i8j1" path="res://Worker/worker.gd" id="1_040j8"]
 [ext_resource type="Script" uid="uid://ckcam80l6u52b" path="res://StateMachine/State_Machine.gd" id="2_n8ou7"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://f2vi36vq6d3a" path="res://Worker/deliver_goods_State.gd" id="4_q4aql"]
 [ext_resource type="Script" uid="uid://bw7qupt4665ys" path="res://Worker/sleeping_State.gd" id="5_8kq3c"]
 [ext_resource type="PackedScene" uid="uid://cg0ghlnok3hxi" path="res://Scenes/hammer.tscn" id="6_f4anl"]
+[ext_resource type="PackedScene" uid="uid://co6txgrmrjhlc" path="res://Scenes/villager_model_2.tscn" id="7_uecup"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8m5s"]
 albedo_color = Color(1, 0.141176, 0.117647, 1)
@@ -107,12 +108,22 @@ _data = {
 &"work": SubResource("Animation_7cbw6")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gb8jj"]
+resource_local_to_scene = true
+albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_uecup"]
+resource_local_to_scene = true
+inner_radius = 1.0
+outer_radius = 1.05
+
 [node name="Worker" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_040j8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_q8m5s")
 mesh = SubResource("CapsuleMesh_i8d5u")
 
@@ -141,3 +152,12 @@ script = ExtResource("4_q4aql")
 
 [node name="Sleeping_State" type="Node" parent="StateMachine"]
 script = ExtResource("5_8kq3c")
+
+[node name="ColorRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01346, 0)
+material_override = SubResource("StandardMaterial3D_gb8jj")
+mesh = SubResource("TorusMesh_uecup")
+skeleton = NodePath("../..")
+
+[node name="Villager_model_2" parent="." instance=ExtResource("7_uecup")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)

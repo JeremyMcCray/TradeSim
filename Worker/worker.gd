@@ -39,6 +39,8 @@ func _ready():
 		ray2.target_position = Vector3(0, 1, 1) * OBSTACLE_DETECTION_RANGE
 		ray2.rotate_y(deg_to_rad(angle))
 		rays.append(ray2)
+		
+		$ColorRing.material_override.albedo_color = village.color
 
 func add_to_inv(good_string):
 	var resource = inventory.get_or_add(good_string, 0)

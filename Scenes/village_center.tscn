@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dc0qng0l0qjfq"]
+[gd_scene load_steps=9 format=3 uid="uid://dc0qng0l0qjfq"]
 
 [ext_resource type="Script" uid="uid://b2m7133a2s8mc" path="res://Scenes/village_center.gd" id="1_umglb"]
-[ext_resource type="PackedScene" uid="uid://b1mmxn0xtimt6" path="res://assets/Package/SmallBuilding01.obj" id="2_awx6f"]
+[ext_resource type="PackedScene" uid="uid://dtxlw8f6est6x" path="res://assets/Buildings/town_center.tscn" id="2_lrmh8"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_haxf4"]
 
@@ -9,6 +9,18 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_lrmh8"]
 radius = 25.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_lrmh8"]
+radius = 25.0444
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lrmh8"]
+resource_local_to_scene = true
+albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_4evyh"]
+resource_local_to_scene = true
+inner_radius = 23.032
+outer_radius = 24.032
 
 [node name="VillageCenter" type="StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -21,10 +33,21 @@ shape = SubResource("BoxShape3D_haxf4")
 mesh = SubResource("BoxMesh_j5ylj")
 skeleton = NodePath("../..")
 
-[node name="SmallBuilding01" parent="." instance=ExtResource("2_awx6f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.463624, 0)
-
 [node name="ZoneOfInfulence" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ZoneOfInfulence"]
 shape = SubResource("SphereShape3D_lrmh8")
+
+[node name="TownCenter" parent="." instance=ExtResource("2_lrmh8")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("CylinderShape3D_lrmh8")
+debug_color = Color(0.824845, 0.34491, 0.524984, 0.42)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+material_override = SubResource("StandardMaterial3D_lrmh8")
+mesh = SubResource("TorusMesh_4evyh")
+skeleton = NodePath("../..")

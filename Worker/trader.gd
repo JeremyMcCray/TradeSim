@@ -3,8 +3,9 @@ extends CharacterBody3D
 
 @onready var trader_ui = $UIPosition/TraderUI
 @onready var ui_position = $UIPosition
+@onready var inv_label = $InventoryLabel
 
-@export var SPEED = 55.0
+@export var SPEED = 15.0
 @export var ACCELERATION = 15.0
 @export var JUMP_VELOCITY = 4.5
 @export var ROTATION_SPEED = 10.0
@@ -22,12 +23,12 @@ var rays = []
 var goods_config
 var prices = {}
 
-var gold = 1000
-var inventory = {"Wood":0}
+var inventory = {"gold":1000}
 var destination = Vector3(0, 0, 0)
 var village
 var inv_count = 0
 var max_inv = 3
+
 
 @onready var animation_player = $AnimationPlayer
 
@@ -45,7 +46,7 @@ func _ready():
 		ray2.target_position = Vector3(0, 1, 1) * OBSTACLE_DETECTION_RANGE
 		ray2.rotate_y(deg_to_rad(angle))
 		rays.append(ray2)
-
+		$ColorRing.material_override.albedo_color = village.color
 
 # Initialize prices with base values from config
 func initialize_prices():
@@ -128,3 +129,38 @@ func distance_to_target() -> float:
 # Optional: Function to check if character has roughly reached its target
 func has_reached_target(threshold: float = 1.0) -> bool:
 	return distance_to_target() < threshold
+
+func _process(delta):
+	var current_pos = global_position
+	if last_trail_pos == Vector3.INF or current_pos.distance_to(last_trail_pos) > trail_spacing:
+		add_footprint(current_pos)
+		last_trail_pos = current_pos
+
+var trail_decals = []
+var max_trail_decals = 10000
+var trail_spacing = 5  # Distance between decals
+var last_trail_pos = Vector3.INF
+
+func add_footprint(position: Vector3):
+	pass
+	## Create a decal instance
+	#var decal = preload("res://Scenes/footprint_decal.tscn").instantiate()
+	#get_parent().add_child(decal)
+	#
+	## Position the decal on the terrain
+	#var height = get_world_3d().direct_space_state.intersect_ray(
+		#PhysicsRayQueryParameters3D.create(
+			#position + Vector3(0, 10, 0),
+			#position + Vector3(0, -20, 0)
+			#)
+		#).position.y
+	#decal.global_position = Vector3(position.x, height + 0.1, position.z)
+	#
+	## Random rotation for variety
+	#decal.rotation.y = randf_range(0, 2 * PI)
+	#
+	## Manage decal count
+	#trail_decals.append(decal)
+	#if trail_decals.size() > max_trail_decals:
+		#var oldest = trail_decals.pop_front()
+		#oldest.queue_free()

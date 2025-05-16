@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cigm0crmu7a6v"]
+
+[ext_resource type="Script" uid="uid://cf0whodk050i0" path="res://Scripts/footprint_decal.gd" id="1_uvamg"]
+
+[sub_resource type="Gradient" id="Gradient_uvamg"]
+offsets = PackedFloat32Array(0.304965, 0.843972)
+colors = PackedColorArray(0.239565, 0.0996449, 0.00174745, 1, 0.537572, 0.250924, 0.0783417, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oiy7c"]
+gradient = SubResource("Gradient_uvamg")
+fill_from = Vector2(0, 1)
+
+[node name="FootprintDecal" type="Decal"]
+layers = 2
+size = Vector3(5, 5, 5)
+texture_albedo = SubResource("GradientTexture2D_oiy7c")
+distance_fade_begin = 500.0
+script = ExtResource("1_uvamg")

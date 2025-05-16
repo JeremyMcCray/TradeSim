@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://cinkwyci1ftsm"]
+[gd_scene load_steps=16 format=3 uid="uid://cinkwyci1ftsm"]
 
 [ext_resource type="Script" uid="uid://crchmrppxce3c" path="res://Worker/trader.gd" id="1_r20j2"]
 [ext_resource type="Script" uid="uid://c1048xd7x5phf" path="res://Scripts/Trader_State_Machine.gd" id="2_r20j2"]
 [ext_resource type="Script" uid="uid://cabv2xf0leoua" path="res://Scripts/trading_State.gd" id="3_2wn4h"]
 [ext_resource type="Script" uid="uid://b64a5mnuaixdp" path="res://Scripts/traveling_state.gd" id="4_xdxcm"]
 [ext_resource type="Script" uid="uid://bw7qupt4665ys" path="res://Worker/sleeping_State.gd" id="5_fugnv"]
+[ext_resource type="PackedScene" uid="uid://cdpr86sw7bi7d" path="res://Scenes/villager_model_1.tscn" id="6_xdxcm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r8rx"]
 albedo_color = Color(0.832401, 0.150553, 0.881366, 1)
@@ -58,12 +59,22 @@ _data = {
 &"work": SubResource("Animation_7cbw6")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r20j2"]
+resource_local_to_scene = true
+albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_xdxcm"]
+resource_local_to_scene = true
+inner_radius = 1.0
+outer_radius = 1.05
+
 [node name="Trader" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_r20j2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.989687, 0)
+visible = false
 material_override = SubResource("StandardMaterial3D_4r8rx")
 mesh = SubResource("CapsuleMesh_i8d5u")
 
@@ -89,3 +100,18 @@ script = ExtResource("4_xdxcm")
 
 [node name="SleepingState" type="Node" parent="Trader_StateMachine"]
 script = ExtResource("5_fugnv")
+
+[node name="InventoryLabel" type="Label3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 5.34311, 0)
+layers = 16
+sorting_offset = 1.0
+billboard = 1
+
+[node name="ColorRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01346, 0)
+material_override = SubResource("StandardMaterial3D_r20j2")
+mesh = SubResource("TorusMesh_xdxcm")
+skeleton = NodePath("../..")
+
+[node name="Villager_model_1" parent="." instance=ExtResource("6_xdxcm")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)

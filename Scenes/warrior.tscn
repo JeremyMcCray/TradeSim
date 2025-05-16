@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://byn55ucd06uj5"]
+
+[ext_resource type="PackedScene" uid="uid://djcp47penffh8" path="res://Worker/worker.tscn" id="1_4nkk3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fdgla"]
+resource_local_to_scene = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mm1av"]
+resource_local_to_scene = true
+albedo_color = Color(0.270222, 0.270222, 0.270222, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_y244l"]
+resource_local_to_scene = true
+inner_radius = 1.0
+outer_radius = 1.05
+
+[node name="Warrior" instance=ExtResource("1_4nkk3")]
+
+[node name="CollisionShape3D" parent="." index="1"]
+shape = SubResource("CapsuleShape3D_fdgla")
+
+[node name="ColorRing" parent="." index="5"]
+material_override = SubResource("StandardMaterial3D_mm1av")
+mesh = SubResource("TorusMesh_y244l")

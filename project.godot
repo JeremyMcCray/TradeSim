@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="TradeSim"
-run/main_scene="res://World.tscn"
+run/main_scene="uid://cmn7lvheq2nmm"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://assets/icon.svg"
 
@@ -99,4 +99,7 @@ camera_rotate={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.103743, 0.103744, 0.103744, 1)
+viewport/hdr_2d=true
+anti_aliasing/quality/msaa_2d=3
+anti_aliasing/quality/msaa_3d=3
+anti_aliasing/quality/screen_space_aa=1

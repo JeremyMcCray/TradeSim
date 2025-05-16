@@ -5,17 +5,13 @@ extends Node3D
 @export var view_distance := 10  # Number of chunks to load in each direction
 @export var noise : FastNoiseLite
 @export var edge_height : float = -2.5
-@export var max_villages := 15
-@export var village_spawn_minimum_distance := 200.0
+
 @export var flatness = 0.5
 var chunks := {}  # Dictionary to store active chunks
 var current_center_chunk := Vector2i.ZERO
 var existing_villages := []  # Store village positions
 @onready var camera = $"../FPSCamera/Camera3D"
 
-var good_placer
-
-var world_boarder
 # Pass through configuration
 @export var smooth : bool = true:
 	set(value):
@@ -30,6 +26,7 @@ var world_boarder
 			chunk.grid = value
 
 func _ready() -> void:
+	colors.shuffle()
 	if noise == null:
 		noise = FastNoiseLite.new()
 	noise.frequency = 0.01
@@ -50,47 +47,6 @@ func _process(_delta: float) -> void:
 	if new_center_chunk != current_center_chunk:
 		current_center_chunk = new_center_chunk
 		update_chunks()
-func try_spawn_village(chunk_pos: Vector2i) -> void:
-	var r = randi_range(1,10)
-	if r < 9:
-		return
-	if existing_villages.size() >= max_villages:
-		return
-	
-	var attempts = 0
-	var max_attempts = 3
-	
-	while attempts < max_attempts:
-		# Convert to world coordinates with some randomness within the chunk
-		var world_x = chunk_pos.x * chunk_size + randi_range(5, chunk_size - 5)
-		var world_z = chunk_pos.y * chunk_size + randi_range(5, chunk_size - 5)
-		var world_y = get_chunk_height(world_x, world_z)
-		
-		var spawn_point = Vector3(world_x, world_y + 1, world_z)
-		
-		if is_valid_village_spawn(spawn_point):
-			var village = load("res://Scenes/village_center.tscn").instantiate()
-			village.add_to_group("Village")
-			village.global_position = spawn_point
-			add_child(village)
-			Global.villages.append(village)
-			existing_villages.append(spawn_point)
-			good_placer.spawn_workable_nodes(village, noise)
-			break
-			
-		attempts += 1
-
-func is_valid_village_spawn(point: Vector3) -> bool:
-	# Check if the area is sufficiently flat in a 10 unit radius
-	if not is_area_flat(point, 10.0):
-		return false
-	
-	# Check distance to other villages
-	for village_pos in existing_villages:
-		if point.distance_to(village_pos) < village_spawn_minimum_distance:
-			return false
-	
-	return true
 
 func is_area_flat(center: Vector3, radius: float) -> bool:
 	var sample_points = 8  # Number of points to check around the circle
@@ -222,3 +178,66 @@ func get_height_at_point(x: float, z: float) -> float:
 		return chunk.get_height_at_point(local_x, local_z)
 	
 	return get_chunk_height(x, z)
+
+
+
+@export var max_villages := 10 ## This is just because I'm too lazy to add more color and don't want them to have any matching colors
+@export var village_spawn_minimum_distance := 200.0
+
+var colors = [Color.TOMATO,
+Color.SLATE_BLUE,
+Color.DARK_GOLDENROD,
+Color.YELLOW_GREEN,
+Color.ALICE_BLUE,
+Color.ANTIQUE_WHITE,
+Color.BLUE,
+Color.WHEAT,
+Color.WEB_PURPLE,
+Color.DARK_MAGENTA
+]
+
+
+var good_placer
+
+func try_spawn_village(chunk_pos: Vector2i) -> void:
+	var r = randi_range(1,10)
+	if r < 9:
+		return
+	if existing_villages.size() >= max_villages:
+		return
+	
+	var attempts = 0
+	var max_attempts = 3
+	
+	while attempts < max_attempts:
+		# Convert to world coordinates with some randomness within the chunk
+		var world_x = chunk_pos.x * chunk_size + randi_range(5, chunk_size - 5)
+		var world_z = chunk_pos.y * chunk_size + randi_range(5, chunk_size - 5)
+		var world_y = get_chunk_height(world_x, world_z)
+		
+		var spawn_point = Vector3(world_x, world_y + 1, world_z)
+		
+		if is_valid_village_spawn(spawn_point):
+			var village = load("res://Scenes/village_center.tscn").instantiate()
+			village.color = colors.pop_back()
+			village.add_to_group("Village")
+			village.global_position = spawn_point
+			add_child(village)
+			Global.villages.append(village)
+			existing_villages.append(spawn_point)
+			good_placer.spawn_workable_nodes(village, noise)
+			break
+			
+		attempts += 1
+
+func is_valid_village_spawn(point: Vector3) -> bool:
+	# Check if the area is sufficiently flat in a 10 unit radius
+	if not is_area_flat(point, 10.0):
+		return false
+	
+	# Check distance to other villages
+	for village_pos in existing_villages:
+		if point.distance_to(village_pos) < village_spawn_minimum_distance:
+			return false
+	
+	return true

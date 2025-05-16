@@ -1,0 +1,35 @@
+{
+	"hammer": {
+		"craft_name": "Stone",
+		"resource_paths": [
+			"res://assets/Rocks/detail_rocks.tscn"
+		],
+		"cost":{"wood" : 5,"stone" : 3},
+		"base_price":70,
+		"price_sensitivity": 0.1,
+		"min_price": 2.0,           
+		"max_price": 15.0           
+	},
+	"shoes": {
+		"craft_name": "Wood",
+		"resource_paths": [
+			"res://assets/Trees/detail_tree_a.tscn"
+		],
+		"cost":{"wood" : 3,"stone" : 2},
+		"base_price": 100,
+		"price_sensitivity": 0.1,
+		"min_price": 2.0,           
+		"max_price": 15.0     
+	},
+	"hat": {
+		"craft_name": "Food",
+		"resource_paths": [
+			"res://assets/Goods/wheat.tscn"
+		],
+		"cost":{"wood" : 1,"food" : 1},
+		"base_price": 50,
+		"price_sensitivity": 0.2,
+		"min_price": 1.0,           
+		"max_price": 45.0   
+	}
+}

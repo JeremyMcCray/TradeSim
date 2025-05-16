@@ -32,7 +32,7 @@ func Physics_Update(_delta: float):
 
 func trade():
 	villageInventory = script_user.current_target.inventory
-	var village_gold = script_user.current_target.gold
+	var village_gold = script_user.current_target.inventory["gold"]
 	
 	var size = villageInventory.size()
 	if size == 0:
@@ -48,9 +48,9 @@ func trade():
 	var agent_price = script_user.prices.get(item_key, item_data.base_price)
 	var village_price = script_user.current_target.prices.get(item_key, item_data.base_price)
 	
-	# Skip unprofitable trades
-	if abs(agent_price - village_price) < (item_data.base_price * 0.1):
-		return
+	## Skip unprofitable trades
+	#if abs(agent_price - village_price) < (item_data.base_price * 0.1):
+		#return
 	
 	# Smart trade direction decision
 	var price_ratio = agent_price / village_price
@@ -64,11 +64,11 @@ func trade():
 		agent_buying = randf() > 0.5
 	
 	if agent_buying:
-		if villageInventory.get(trade_item, 0) > 0 and script_user.gold >= village_price:
+		if villageInventory.get(trade_item, 0) > 0 and script_user.inventory["gold"] >= village_price:
 			villageInventory[trade_item] -= 1
 			inventory[trade_item] = inventory.get(trade_item, 0) + 1
-			script_user.gold -= village_price
-			script_user.current_target.gold += village_price
+			script_user.inventory["gold"] -= village_price
+			script_user.current_target.inventory["gold"] += village_price
 			
 			# Moderate price adjustments
 			script_user.current_target.prices[item_key] = min(
@@ -85,8 +85,8 @@ func trade():
 		if inventory.get(trade_item, 0) > 0 and village_gold >= agent_price:
 			inventory[trade_item] -= 1
 			villageInventory[trade_item] = villageInventory.get(trade_item, 0) + 1
-			script_user.gold += agent_price
-			script_user.current_target.gold -= agent_price
+			script_user.inventory["gold"] += agent_price
+			script_user.current_target.inventory["gold"] -= agent_price
 			
 			script_user.prices[item_key] = min(
 				item_data.max_price,
@@ -99,7 +99,6 @@ func trade():
 			print("Sold 1 ", trade_item, " for ", agent_price, " gold (new prices - agent: ", 
 			script_user.prices[item_key], ", village: ", script_user.current_target.prices[item_key], ")")
 			print_inventory_value()
-
 
 func print_inventory_value():
 	if not script_user or not script_user.prices or not inventory:
@@ -142,6 +141,18 @@ func print_inventory_value():
 	
 	print("-----------------------")
 	print("TOTAL INVENTORY VALUE: %d gold" % total_value)
-	print("CURRENT GOLD: %d gold" % script_user.gold)
-	print("TOTAL NET WORTH: %d gold" % (total_value + script_user.gold))
+	print("CURRENT GOLD: %d gold" % script_user.inventory["gold"])
+	print("TOTAL NET WORTH: %d gold" % (total_value + script_user.inventory["gold"]))
 	print("-----------------------\n")
+	
+	script_user.inv_label.text = """
+-----------------------
+TOTAL INVENTORY VALUE: %d gold
+CURRENT GOLD: %d gold
+TOTAL NET WORTH: %d gold
+-----------------------
+""" % [
+		total_value,
+		script_user.inventory["gold"],
+		(total_value + script_user.inventory["gold"])
+	]

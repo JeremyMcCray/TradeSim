@@ -36,4 +36,6 @@ This example should be a great starting point, but if you wanted to take this fu
   - https://www.youtube.com/watch?v=55fGgHhF2DM
 - **StayAtHomeDev** for the water shader tutorial in Godot
   - https://www.youtube.com/watch?v=7L6ZUYj1hs8
-- Myself (**NickToony / Nick Hope**) for bringing this all together in Godot 4.3
+- (**NickToony / Nick Hope**) for bringing this all together in Godot 4.3
+	- I found this in the godot asset store, I wish I could give this guy more credit.
+- Myself for changing the mesh logic and adding collisions. Now this is becoming a simulation game :)
