@@ -22,6 +22,7 @@ func Exit():
 func Update(_delta: float):
 	if script_user.global_position.distance_to(village.global_position) < deliver_range:
 			village.deliver_goods(script_user)
+			script_user.velocity = Vector3(0,0,0)
 	else:
 		script_user.animation_player.stop()
 		script_user.move_worker(village)

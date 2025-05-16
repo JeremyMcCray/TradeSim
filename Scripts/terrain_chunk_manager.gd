@@ -71,8 +71,8 @@ func try_spawn_village(chunk_pos: Vector2i) -> void:
 		if is_valid_village_spawn(spawn_point):
 			var village = load("res://Scenes/village_center.tscn").instantiate()
 			village.add_to_group("Village")
-			village.global_position = spawn_point
 			add_child(village)
+			village.global_position = spawn_point
 			Global.villages.append(village)
 			existing_villages.append(spawn_point)
 			good_placer.spawn_workable_nodes(village, noise)

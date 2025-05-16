@@ -1,9 +1,6 @@
 extends CharacterBody3D
 
 
-@onready var trader_ui = $UIPosition/TraderUI
-@onready var ui_position = $UIPosition
-
 @export var SPEED = 55.0
 @export var ACCELERATION = 15.0
 @export var JUMP_VELOCITY = 4.5
@@ -74,31 +71,8 @@ func move_worker(target):
 	target_direction.y = 0  # Keep movement on the horizontal plane
 	target_direction = target_direction.normalized()
 	
-	# Calculate avoidance direction
-	var avoidance = Vector3.ZERO
-	var num_collisions = 0
-	
-	# Check all raycasts for obstacles
-	for ray in rays:
-		if ray.is_colliding():
-			var collision_point = ray.get_collision_point()
-			var collision_normal = ray.get_collision_normal()
-			var distance = global_position.distance_to(collision_point)
-			
-			# Calculate avoidance vector (stronger when closer to obstacle)
-			var avoidance_vector = collision_normal * (1.0 - distance / OBSTACLE_DETECTION_RANGE)
-			avoidance += avoidance_vector
-			num_collisions += 1
-	
-	# Average the avoidance vector if there were collisions
-	if num_collisions > 0:
-		avoidance = (avoidance / num_collisions) * AVOIDANCE_FORCE
-	
-	# Combine target direction with avoidance
-	var final_direction = (target_direction + avoidance).normalized()
-	
 	# Apply horizontal movement with acceleration
-	var target_velocity = final_direction * SPEED
+	var target_velocity = target_direction * SPEED
 	velocity.x = move_toward(velocity.x, target_velocity.x, ACCELERATION * delta)
 	velocity.z = move_toward(velocity.z, target_velocity.z, ACCELERATION * delta)
 	

@@ -35,6 +35,7 @@ func Update(_delta: float):
 	if current_node:
 		script_user.destination = current_node.global_position
 		if script_user.global_position.distance_to(current_node.global_position) < work_range:
+			script_user.velocity = Vector3(0,0,0)
 			script_user.animation_player.play("work")
 			current_node.work_node(script_user)
 		else:

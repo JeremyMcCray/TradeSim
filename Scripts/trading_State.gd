@@ -13,6 +13,7 @@ func _ready():
 	script_user = get_parent().get_script_user()
 
 func Enter():
+	script_user.velocity = Vector3(0,0,0)
 	current_attempts = 0
 	if script_user.inventory:
 		inventory = script_user.inventory
