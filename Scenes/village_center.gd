@@ -50,6 +50,10 @@ var available_buildings = {
 		"scene": preload("res://assets/highFantasyBuildings/Walls/Tower/tower.tscn"),
 		"cost": {"Wood": 10, "Stone": 20}
 	},
+		"farm": {
+		"scene": preload("res://assets/highFantasyBuildings/Farm/farm_small.tscn"),
+		"cost": {"Wood": 1, "Stone": 2}
+	},
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -67,7 +71,7 @@ func initialize_prices():
 		prices[good_key] = base_price * (0.8 + randf() * 0.4)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if tick > tick_timer:
 		try_build_random_building()
 		tick = 0

@@ -4,7 +4,6 @@ extends Node3D
 @export var chunk_size := 32  # Size of each chunk in vertices
 @export var view_distance := 10  # Number of chunks to load in each direction
 @export var noise : FastNoiseLite
-@export var edge_height : float = -2.5
 @export var max_villages := 15
 @export var village_spawn_minimum_distance := 200.0
 @export var flatness = 0.5

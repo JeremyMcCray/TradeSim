@@ -1,7 +1,11 @@
 extends MeshInstance3D
 
+# Reduce the vertex density by increasing this value
+var vertex_spacing := 2 # Space between vertices (2 = half as many vertices)
+var effective_chunk_size := chunk_size / vertex_spacing
+
 var chunk_position := Vector2i.ZERO
-var chunk_size := 32
+var chunk_size := 32  # This now represents world units, not vertex count
 var chunk_manager : Node = null
 var smooth : bool = true
 var grid : bool = false
@@ -22,55 +26,58 @@ func _ready() -> void:
 	static_body.add_child(collision_node)
 
 func generate() -> void:
-	coords.resize((chunk_size + 1) * (chunk_size + 1))
+	# Calculate the number of vertices needed with spacing
+	var vertex_count_x = (chunk_size / vertex_spacing) + 1
+	var vertex_count_z = (chunk_size / vertex_spacing) + 1
+	coords.resize(vertex_count_x * vertex_count_z)
 	
 	## Calculate world space offset for this chunk
 	var world_offset_x = chunk_position.x * chunk_size
 	var world_offset_z = chunk_position.y * chunk_size
 	
-	# Generate vertices with overlapping edges
-	for x in range(chunk_size + 1):
-		for z in range(chunk_size + 1):
-			var world_x = x + world_offset_x
-			var world_z = z + world_offset_z
+	# Generate vertices with spacing
+	for x in range(vertex_count_x):
+		for z in range(vertex_count_z):
+			var world_x = (x * vertex_spacing) + world_offset_x
+			var world_z = (z * vertex_spacing) + world_offset_z
 			
 			var y = chunk_manager.get_chunk_height(world_x, world_z)
-			coords[x * (chunk_size + 1) + z] = Vector3(x, y, z)
+			coords[x * vertex_count_z + z] = Vector3(x * vertex_spacing, y, z * vertex_spacing)
 	
-	generate_mesh()
-	generate_collision()
+	generate_mesh(vertex_count_x, vertex_count_z)
+	generate_collision(vertex_count_x, vertex_count_z)
 
-func generate_mesh() -> void:
+func generate_mesh(vertex_count_x: int, vertex_count_z: int) -> void:
 	var surface_tool := SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
-	var uv_scale = 0.1  # Adjust this to control texture tiling
+	var uv_scale = 0.2 # Adjust this to control texture tiling
 	
-	for x in range(chunk_size):
-		for z in range(chunk_size):
-			var coord_id := x * (chunk_size + 1) + z
+	for x in range(vertex_count_x - 1):
+		for z in range(vertex_count_z - 1):
+			var coord_id := x * vertex_count_z + z
 			var top_left_vertex := coords[coord_id]
 			var top_right_vertex := coords[coord_id + 1]
-			var bottom_left_vertex := coords[coord_id + chunk_size + 1]
-			var bottom_right_vertex := coords[coord_id + chunk_size + 2]
+			var bottom_left_vertex := coords[coord_id + vertex_count_z]
+			var bottom_right_vertex := coords[coord_id + vertex_count_z + 1]
 			
 			# Calculate world position for proper UV mapping
-			var world_x = chunk_position.x * chunk_size + x
-			var world_z = chunk_position.y * chunk_size + z
+			var world_x = chunk_position.x * chunk_size + (x * vertex_spacing)
+			var world_z = chunk_position.y * chunk_size + (z * vertex_spacing)
 			
-			# Calculate UVs based on world position for seamless texturing
+			# Calculate UVs with spacing accounted for
 			var top_left_uv := Vector2(world_x * uv_scale, world_z * uv_scale)
-			var top_right_uv := Vector2((world_x + 1) * uv_scale, world_z * uv_scale)
-			var bottom_left_uv := Vector2(world_x * uv_scale, (world_z + 1) * uv_scale)
-			var bottom_right_uv := Vector2((world_x + 1) * uv_scale, (world_z + 1) * uv_scale)
+			var top_right_uv := Vector2((world_x + vertex_spacing) * uv_scale, world_z * uv_scale)
+			var bottom_left_uv := Vector2(world_x * uv_scale, (world_z + vertex_spacing) * uv_scale)
+			var bottom_right_uv := Vector2((world_x + vertex_spacing) * uv_scale, (world_z + vertex_spacing) * uv_scale)
 			
-			# Calculate vertex colors with smoother transitions
+			# Calculate vertex colors
 			var top_left_color = calculate_vertex_color(top_left_vertex)
 			var top_right_color = calculate_vertex_color(top_right_vertex)
 			var bottom_left_color = calculate_vertex_color(bottom_left_vertex)
 			var bottom_right_color = calculate_vertex_color(bottom_right_vertex)
 			
-			# Add triangles with smooth color transitions
+			# Add triangles
 			add_smooth_quad(surface_tool,
 				top_left_vertex, top_right_vertex,
 				bottom_left_vertex, bottom_right_vertex,
@@ -86,7 +93,7 @@ func generate_mesh() -> void:
 	surface_tool.commit(array_mesh)
 	mesh = array_mesh
 	
-	# Apply material
+	# Apply material (unchanged)
 	var shader := ShaderMaterial.new()
 	shader.shader = load("res://shaders/terrain.gdshader")
 	shader.set_shader_parameter("grassTexture", load("res://assets/grass.jpg"))
@@ -95,6 +102,29 @@ func generate_mesh() -> void:
 	shader.set_shader_parameter("lineThickness", 0.02)
 	shader.set_shader_parameter("lineVisibility", 0.5 if grid else 0.0)
 	mesh.surface_set_material(0, shader)
+
+func generate_collision(vertex_count_x: int, vertex_count_z: int) -> void:
+	var collision_vertices = PackedVector3Array()
+	
+	for x in range(vertex_count_x - 1):
+		for z in range(vertex_count_z - 1):
+			var coord_id := x * vertex_count_z + z
+			var top_left_vertex := coords[coord_id]
+			var top_right_vertex := coords[coord_id + 1]
+			var bottom_left_vertex := coords[coord_id + vertex_count_z]
+			var bottom_right_vertex := coords[coord_id + vertex_count_z + 1]
+			
+			# First triangle
+			collision_vertices.append(bottom_left_vertex)
+			collision_vertices.append(bottom_right_vertex)
+			collision_vertices.append(top_left_vertex)
+			
+			# Second triangle
+			collision_vertices.append(bottom_right_vertex)
+			collision_vertices.append(top_right_vertex)
+			collision_vertices.append(top_left_vertex)
+	
+	collision_shape.set_faces(collision_vertices)
 
 func calculate_vertex_color(vertex: Vector3) -> Color:
 	# Height thresholds
@@ -167,25 +197,3 @@ func add_smooth_quad(surface_tool: SurfaceTool,
 func smoothstep(edge0: float, edge1: float, x: float) -> float:
 	var t = clamp((x - edge0) / (edge1 - edge0), 0.0, 1.0)
 	return t * t * (3.0 - 2.0 * t)
-func generate_collision() -> void:
-	var collision_vertices = PackedVector3Array()
-	
-	for x in range(chunk_size):  # Note: chunk_size instead of chunk_size + 1
-		for z in range(chunk_size):
-			var coord_id := x * (chunk_size + 1) + z
-			var top_left_vertex := coords[coord_id]
-			var top_right_vertex := coords[coord_id + 1]
-			var bottom_left_vertex := coords[coord_id + chunk_size + 1]
-			var bottom_right_vertex := coords[coord_id + chunk_size + 2]
-			
-			# First triangle
-			collision_vertices.append(bottom_left_vertex)
-			collision_vertices.append(bottom_right_vertex)
-			collision_vertices.append(top_left_vertex)
-			
-			# Second triangle
-			collision_vertices.append(bottom_right_vertex)
-			collision_vertices.append(top_right_vertex)
-			collision_vertices.append(top_left_vertex)
-	
-	collision_shape.set_faces(collision_vertices)

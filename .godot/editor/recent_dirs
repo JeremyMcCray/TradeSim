@@ -1,3 +1,6 @@
+res://assets/highFantasyBuildings/Farm
+res://assets/highFantasyBuildings/MiscProps
+res://assets/Goods
 res://Scripts
 res://ui
 res://assets/VillagerModels/scenes
@@ -9,7 +12,6 @@ res://assets/highFantasyBuildings/TownCenter
 res://assets/highFantasyBuildings/Barracks
 res://
 res://buildings
-res://assets/Goods
 C:/Projects/Godot Projects/tradesim/configs
 res://Scenes
 C:/Projects/Godot Projects/Trade_Sim_Export

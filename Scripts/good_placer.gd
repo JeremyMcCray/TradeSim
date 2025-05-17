@@ -2,9 +2,9 @@ class_name GoodPlacer
 extends Node3D
 
 @export var placement_area: Vector2 = Vector2(100, 100)  # Area size in which to place goods
-@export var min_distance: float = 1.0  # Minimum distance between goods
+@export var min_distance: float = 7.0  # Minimum distance between goods
 @export var max_distance: float = 80.0  # Minimum distance between goods
-@export var number_of_goods: int = 30  # How many goods to place
+@export var number_of_goods: int = 18  # How many goods to place
 @export var height: float = 10.0  # Length of ray for ground check
 @export var flatness = 0.5
 
@@ -44,9 +44,11 @@ func spawn_workable_nodes(village,noise) -> void:
 				var good = factory.create_good(good_type)
 				if good:
 					var good_path = good.resource_paths[randi_range(0, good.resource_paths.size() - 1)]
+					var visable_good = load(good_path).instantiate()
 					village.add_child(good)
+					village.add_child(visable_good)
 					good.global_position = spawn_point
-					good.scale = Vector3(3,3,3)
+					visable_good.global_position = spawn_point
 					good.add_to_group("WorkableNode")
 					spawned_workable_nodes.append(spawn_point)
 					break

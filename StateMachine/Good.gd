@@ -23,6 +23,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if tick % tick_timer == 0:
 		ready_to_work = true
+		print("ready")
 	tick += 1
 
 func work_node(gatherer) -> void:
@@ -33,5 +34,4 @@ func work_node(gatherer) -> void:
 		current_work_count += 1
 	
 	if current_work_count >= max_works:
-		print("all done la")
 		queue_free()
