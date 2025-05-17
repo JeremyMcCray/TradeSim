@@ -1,4 +1,5 @@
-res://World.tscn
+res://Scenes/trader.tscn
+res://Scripts/terrain_chunk.gd
 res://Worker/worker.gd
 res://StateMachine/State_Machine.gd
 res://Worker/working_State.gd
@@ -7,13 +8,11 @@ res://Worker/sleeping_State.gd
 res://Scripts/trading_State.gd
 res://Scripts/traveling_state.gd
 res://Scenes/village_center.gd
-res://Scripts/good_placer.gd
-res://Scripts/terrain_chunk.gd
-res://Scripts/terrain_chunk_manager.gd
+res://configs/tech_tree.json
+res://Scripts/tech_manager.gd
+res://World.tscn
 res://assets/Goods/crop_field.tscn
 res://assets/highFantasyBuildings/MiscProps/wood_fence.tscn
 res://assets/highFantasyBuildings/Farm/farm_small.tscn
 res://Worker/worker.tscn
-res://Scenes/trader.tscn
-res://Scripts/farm.gd
 res://StateMachine/Good.gd

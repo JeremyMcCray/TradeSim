@@ -118,7 +118,6 @@ func has_reached_target(threshold: float = 1.0) -> bool:
 func _on_new_day(day_number: int) -> void:
 	$hungerManager.eat()
 
-
 func eat():
 	pass
 	#try to eat from inventory

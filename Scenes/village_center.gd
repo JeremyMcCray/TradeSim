@@ -38,7 +38,7 @@ var available_buildings = {
 		"scene": preload("res://assets/highFantasyBuildings/WatchTower/watch_tower.tscn"),
 		"cost": {"Wood": 5, "Stone": 5}
 	},
-	"barraks": {
+	"barracks": {
 		"scene": preload("res://assets/highFantasyBuildings/Barracks/barracks.tscn"),
 		"cost": {"Wood": 15, "Stone": 50}
 	},

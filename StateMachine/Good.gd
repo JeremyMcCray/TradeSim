@@ -23,7 +23,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if tick % tick_timer == 0:
 		ready_to_work = true
-		print("ready")
 	tick += 1
 
 func work_node(gatherer) -> void:

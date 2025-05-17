@@ -1,0 +1,60 @@
+{
+  "eras": ["early", "middle", "late"],
+  "tech_trees": ["agriculture", "industry", "military", "science", "commerce"],
+  
+  "technologies": {
+	"construction": {
+	  "name": "Basic Construction",
+	  "description": "Allows building simple structures",
+	  "cost": 100,
+	  "era": "early",
+	  "tech_tree": "agriculture",
+	  "prerequisites": {
+		"era_required": true,
+		"techs_required": []
+	  },
+	  "unlocks": {
+		"techs": ["farming"],
+		"buildings": ["hut"],
+		"units": [],
+		"abilities": []
+	  }
+	},
+	
+	"farming": {
+	  "name": "Basic Farming",
+	  "description": "Enables crop cultivation",
+	  "cost": 150,
+	  "era": "early",
+	  "tech_tree": "agriculture",
+	  "prerequisites": {
+		"era_required": true,
+		"techs_required": ["construction"]
+	  },
+	  "unlocks": {
+		"techs": ["animal_husbandry", "irrigation"],
+		"buildings": ["farm"],
+		"units": [],
+		"abilities": []
+	  }
+	},
+	
+	"metalworking": {
+	  "name": "Metalworking",
+	  "description": "Basic metal tools and weapons",
+	  "cost": 200,
+	  "era": "middle",
+	  "tech_tree": "industry",
+	  "prerequisites": {
+		"era_required": true,
+		"techs_required": []
+	  },
+	  "unlocks": {
+		"techs": ["blacksmithing"],
+		"buildings": ["forge"],
+		"units": ["warrior"],
+		"abilities": []
+	  }
+	}
+  }
+}
