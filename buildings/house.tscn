@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bak8f5qajcjvx"]
-
-[ext_resource type="ArrayMesh" uid="uid://bl81bpjs863kr" path="res://assets/KayKitModels/house.obj" id="1_lcdoo"]
-
-[node name="House" type="Node3D"]
-
-[node name="HouseModel" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.151528, 0, -0.0634658)
-mesh = ExtResource("1_lcdoo")

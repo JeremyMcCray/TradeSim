@@ -18,6 +18,7 @@ config/icon="res://assets/icon.svg"
 [autoload]
 
 Global="*res://Scripts/global.gd"
+TimeManager="*res://Scripts/time_manager.gd"
 
 [global_group]
 

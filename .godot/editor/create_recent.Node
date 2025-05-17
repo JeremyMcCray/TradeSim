@@ -1,3 +1,5 @@
+Node
+ProgressBar
 Label
 Panel
 Control
@@ -9,6 +11,4 @@ CollisionShape3D
 Area3D
 DirectionalLight3D
 MeshInstance3D
-Node
 AudioStreamPlayer3D
-FogVolume

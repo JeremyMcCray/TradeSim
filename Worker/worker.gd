@@ -28,6 +28,7 @@ var max_inv = 4
 
 func _ready():
 	self.add_to_group("worker")
+	TimeManager.new_day_started.connect(_on_new_day)
 	for angle in ray_angles:
 		var ray = RayCast3D.new()
 		add_child(ray)
@@ -113,3 +114,15 @@ func distance_to_target() -> float:
 # Optional: Function to check if character has roughly reached its target
 func has_reached_target(threshold: float = 1.0) -> bool:
 	return distance_to_target() < threshold
+
+func _on_new_day(day_number: int) -> void:
+	$hungerManager.eat()
+
+
+func eat():
+	pass
+	#try to eat from inventory
+	# if no food then try to eat from village invetory
+	# if no food and starving == true
+	# 	die
+	# else starving = true

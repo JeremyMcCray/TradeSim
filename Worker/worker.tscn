@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://djcp47penffh8"]
+[gd_scene load_steps=16 format=3 uid="uid://djcp47penffh8"]
 
 [ext_resource type="Script" uid="uid://bntjx2324i8j1" path="res://Worker/worker.gd" id="1_040j8"]
 [ext_resource type="Script" uid="uid://ckcam80l6u52b" path="res://StateMachine/State_Machine.gd" id="2_n8ou7"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bw7qupt4665ys" path="res://Worker/sleeping_State.gd" id="5_8kq3c"]
 [ext_resource type="PackedScene" uid="uid://cg0ghlnok3hxi" path="res://Scenes/hammer.tscn" id="6_f4anl"]
 [ext_resource type="PackedScene" uid="uid://cwpaw1xeld0vd" path="res://assets/VillagerModels/scenes/gamir_bow_levy.tscn" id="7_uecup"]
+[ext_resource type="Script" uid="uid://b2uk782g3qifg" path="res://Scripts/hunger_manager.gd" id="8_276mm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q8m5s"]
 albedo_color = Color(1, 0.141176, 0.117647, 1)
@@ -146,3 +147,6 @@ script = ExtResource("5_8kq3c")
 
 [node name="gamir_bow_levy" parent="." instance=ExtResource("7_uecup")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="hungerManager" type="Node" parent="."]
+script = ExtResource("8_276mm")

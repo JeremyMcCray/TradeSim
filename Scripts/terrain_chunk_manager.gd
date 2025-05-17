@@ -50,6 +50,7 @@ func _process(_delta: float) -> void:
 	if new_center_chunk != current_center_chunk:
 		current_center_chunk = new_center_chunk
 		update_chunks()
+
 func try_spawn_village(chunk_pos: Vector2i) -> void:
 	var r = randi_range(1,10)
 	if r < 9:
@@ -69,6 +70,8 @@ func try_spawn_village(chunk_pos: Vector2i) -> void:
 		var spawn_point = Vector3(world_x, world_y + 1, world_z)
 		
 		if is_valid_village_spawn(spawn_point):
+			#Makes sure there is ground around the entire village
+			update_chunks_around_position(Vector2i(chunk_pos.x,chunk_pos.y), 10)
 			var village = load("res://Scenes/village_center.tscn").instantiate()
 			village.add_to_group("Village")
 			add_child(village)
@@ -157,19 +160,19 @@ func get_chunk_height(world_x: float, world_z: float) -> float:
 	return height
 
 func update_chunks() -> void:
-	var needed_chunks := {}
-	var rand
 	for x in range(-view_distance, view_distance + 1):
 		for z in range(-view_distance, view_distance + 1):
 			var chunk_pos = current_center_chunk + Vector2i(x, z)
-			needed_chunks[chunk_pos] = true
 			
 			if not chunks.has(chunk_pos):
 				create_chunk(chunk_pos)
-				rand = randi_range(1,10)
-				try_spawn_village(chunk_pos)  # Try to spawn a village in the new chunk
+				var rand = randi_range(1,1000)
+				if rand > 899:
+					try_spawn_village(chunk_pos)  # Try to spawn a village in the new chunk
 	
 	# Remove chunks that are too far away
+	# var needed_chunks := {}
+	# needed_chunks[chunk_pos] = true
 	#for chunk_pos in chunks.keys():
 		#if not needed_chunks.has(chunk_pos):
 			#chunks[chunk_pos].queue_free()
@@ -222,3 +225,11 @@ func get_height_at_point(x: float, z: float) -> float:
 		return chunk.get_height_at_point(local_x, local_z)
 	
 	return get_chunk_height(x, z)
+
+func update_chunks_around_position(chunk_vector : Vector2i, build_range: int) -> void:
+	for x in range(-build_range, build_range + 1):
+		for z in range(-build_range, build_range + 1):
+			var chunk_pos = chunk_vector + Vector2i(x, z)
+			
+			if not chunks.has(chunk_pos):
+				create_chunk(chunk_pos)

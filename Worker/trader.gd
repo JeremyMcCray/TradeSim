@@ -29,6 +29,7 @@ var max_inv = 3
 @onready var animation_player = $AnimationPlayer
 
 func _ready():
+	TimeManager.new_day_started.connect(_on_new_day)
 	goods_config = load("res://configs/goods_config.json").get_data()
 	initialize_prices()
 	for angle in ray_angles:
@@ -102,3 +103,8 @@ func distance_to_target() -> float:
 # Optional: Function to check if character has roughly reached its target
 func has_reached_target(threshold: float = 1.0) -> bool:
 	return distance_to_target() < threshold
+
+
+func _on_new_day(day_number: int) -> void:
+	$hungerManger.eat()
+	print("it's a brand new day!!")

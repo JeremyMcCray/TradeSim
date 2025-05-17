@@ -12,19 +12,43 @@ var building_max = 5
 var prices = {}
 var goods_config
 
+var workers = []
+var specialized_workers = []
+
+var roles = {
+	"worker": {
+		"max_count": 8,
+		"scene_path" : preload("res://Worker/worker.tscn"),
+		"transfer_cost": {"Wood": 40, "Stone": 40},
+		"need_weight" : 0,
+		"current_count" : 0
+	},
+	"trader": {
+		"max_count": 2,
+		"scene_path" : preload("res://Scenes/trader.tscn"),
+		"transfer_cost": {"gold": 150, "stone": 10, "wood":10},
+		"need_weight" : 1,
+		"current_count" : 0
+	}
+}
+
 # Dictionary of available buildings with their costs
 var available_buildings = {
 	"watchtower": {
 		"scene": preload("res://assets/highFantasyBuildings/WatchTower/watch_tower.tscn"),
-		"cost": {"Wood": 4, "Stone": 4}
+		"cost": {"Wood": 5, "Stone": 5}
 	},
 	"barraks": {
 		"scene": preload("res://assets/highFantasyBuildings/Barracks/barracks.tscn"),
-		"cost": {"Wood": 1, "Stone": 5}
+		"cost": {"Wood": 15, "Stone": 50}
 	},
 		"house": {
 		"scene": preload("res://assets/highFantasyBuildings/Hut/hut.tscn"),
-		"cost": {"Wood": 4, "Stone": 2}
+		"cost": {"Wood": 10, "Stone": 5}
+	},
+		"tower": {
+		"scene": preload("res://assets/highFantasyBuildings/Walls/Tower/tower.tscn"),
+		"cost": {"Wood": 10, "Stone": 20}
 	},
 }
 
@@ -47,7 +71,7 @@ func _process(delta: float) -> void:
 	if tick > tick_timer:
 		try_build_random_building()
 		tick = 0
-	tick += 1 
+	tick += 1
 
 func spawn_workers():
 	for i in worker_count:
@@ -57,15 +81,10 @@ func spawn_workers():
 		unpacked.village = self
 		self.add_child(unpacked)
 		unpacked.set_global_position((self.global_position) + Vector3(randi_range(1,10),4,randi_range(1,10)))
+		workers.append(unpacked)
 
 func spawn_trader():
-	for i in trader_count:
-		var trader = load("res://Scenes/trader.tscn")
-		trader.set_local_to_scene(true)
-		var unpacked = trader.instantiate()
-		unpacked.village = self
-		self.add_child(unpacked)
-		unpacked.set_global_position((self.global_position) + Vector3(randi_range(1,10),4,randi_range(1,10)))
+	upgrade_worker("trader")
 
 func deliver_goods(deliverer):
 	# Track price adjustments for logging
@@ -81,7 +100,7 @@ func deliver_goods(deliverer):
 				
 				# Calculate price adjustment based on quantity delivered
 				# More quantity = greater price decrease (supply increases)
-				var supply_factor = quantity * 0.02  # 2% price impact per unit
+				var supply_factor = quantity * 0.002  # 2% price impact per unit
 				var new_price = max(
 					item_data.min_price,
 					prices.get(item_key, item_data.base_price) * (1 - supply_factor))
@@ -101,19 +120,19 @@ func deliver_goods(deliverer):
 	deliverer.inventory = {}
 	deliverer.inv_count = 0
 	
-	# Log price adjustments if any occurred
-	if price_adjustments.size() > 0:
-		print("\n--- Price Adjustments After Delivery ---")
-		for item_name in price_adjustments:
-			var adj = price_adjustments[item_name]
-			print("%s: %d units delivered | Price %d -> %d (%.1f%% decrease)" % [
-				item_name,
-				adj["qty"],
-				adj["old"],
-				adj["new"],
-				(1 - adj["new"]/adj["old"]) * 100
-			])
-		print("------------------------------------\n")
+	## Log price adjustments if any occurred
+	#if price_adjustments.size() > 0:
+		#print("\n--- Price Adjustments After Delivery ---")
+		#for item_name in price_adjustments:
+			#var adj = price_adjustments[item_name]
+			#print("%s: %d units delivered | Price %d -> %d (%.1f%% decrease)" % [
+				#item_name,
+				#adj["qty"],
+				#adj["old"],
+				#adj["new"],
+				#(1 - adj["new"]/adj["old"]) * 100
+			#])
+		#print("------------------------------------\n")
 
 func add_to_inv(good_string):
 	var resource = inventory.get(good_string, 0)
@@ -169,3 +188,32 @@ func build_building(building_name: String, building_data: Dictionary):
 	
 	building_count += 1
 	print("Built a new ", building_name)
+
+func upgrade_worker(roleName):
+	var new_role = roles[roleName]["scene_path"].instantiate()
+	new_role.village = self
+	self.add_child(new_role)
+	new_role.global_position = self.global_position
+	
+	specialized_workers.append(new_role)
+	roles[roleName]["need_weight"] =- 1
+	roles[roleName]["current_count"] += 1
+	
+	print("New role was changed to la " + str(roles[roleName]))
+
+	#Remove a worker to change into the new role
+	var changed = workers.pop_front()
+	changed.queue_free()
+
+func remove_from_inv(good_string: String, amount: int = 1) -> bool:
+	if not inventory.has(good_string) or inventory[good_string] < amount:
+		return false
+		
+	inventory[good_string] -= amount
+
+	if inventory[good_string] <= 0:
+		inventory[good_string] = 0
+	return true
+	
+func consume_food(amount: int) -> bool:
+	return remove_from_inv("Food",amount)

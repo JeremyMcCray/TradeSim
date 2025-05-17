@@ -44,11 +44,9 @@ func spawn_workable_nodes(village,noise) -> void:
 				var good = factory.create_good(good_type)
 				if good:
 					var good_path = good.resource_paths[randi_range(0, good.resource_paths.size() - 1)]
-					var visable_good = load(good_path).instantiate()
 					village.add_child(good)
-					village.add_child(visable_good)
 					good.global_position = spawn_point
-					visable_good.global_position = spawn_point
+					good.scale = Vector3(3,3,3)
 					good.add_to_group("WorkableNode")
 					spawned_workable_nodes.append(spawn_point)
 					break
