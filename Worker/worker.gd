@@ -115,7 +115,7 @@ func distance_to_target() -> float:
 func has_reached_target(threshold: float = 1.0) -> bool:
 	return distance_to_target() < threshold
 
-func _on_new_day(day_number: int) -> void:
+func _on_new_day(_day_number: int) -> void:
 	$hungerManager.eat()
 
 func eat():

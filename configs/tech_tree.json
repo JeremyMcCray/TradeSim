@@ -6,7 +6,7 @@
 	"construction": {
 	  "name": "Basic Construction",
 	  "description": "Allows building simple structures",
-	  "cost": 100,
+	  "research_cost": 100,
 	  "era": "early",
 	  "tech_tree": "agriculture",
 	  "prerequisites": {
@@ -24,7 +24,7 @@
 	"farming": {
 	  "name": "Basic Farming",
 	  "description": "Enables crop cultivation",
-	  "cost": 150,
+	  "research_cost": 150,
 	  "era": "early",
 	  "tech_tree": "agriculture",
 	  "prerequisites": {
@@ -32,17 +32,17 @@
 		"techs_required": ["construction"]
 	  },
 	  "unlocks": {
-		"techs": ["animal_husbandry", "irrigation"],
+		"techs": ["animal_husbandry"],
 		"buildings": ["farm"],
 		"units": [],
-		"abilities": []
+		"abilities": ["farm_upgrade.gd"]
 	  }
 	},
 	
 	"metalworking": {
 	  "name": "Metalworking",
 	  "description": "Basic metal tools and weapons",
-	  "cost": 200,
+	  "research_cost": 200,
 	  "era": "middle",
 	  "tech_tree": "industry",
 	  "prerequisites": {

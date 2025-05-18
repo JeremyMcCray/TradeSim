@@ -1,29 +1,62 @@
 extends Node
 
-var technologies: Dictionary = {}
+var technologies: Dictionary
+var current_era: String = "early"
+var researched_techs: Array = []
 
-func _init() -> void:
-	load_config()
+@export var script_user : Node
 
-func load_config() -> void:
-	var file = FileAccess.open("res://configs/goods_config.json", FileAccess.READ)
-	if file:
-		var json = JSON.new()
-		var parse_result = json.parse(file.get_as_text())
-		if parse_result == OK:
-			technologies = json.get_data()
-		file.close()
-
-func add_tech_progress(tech_name: String, amount : float):
-	if not tech_name in technologies:
-		return
-		
-	technologies[tech_name]["progress"] += amount
+func _ready():
+	load_tech_data()
 	
-	# Check for tech completion
-	if technologies[tech_name]["progress"] >= technologies[tech_name]["required"]:
-		complete_technology(tech_name)
-		
+func load_tech_data():
+	var file = FileAccess.open("res://data/tech_tree.json", FileAccess.READ)
+	if file:
+		var data = JSON.parse_string(file.get_as_text())
+		technologies = data.get("technologies", {})
+	else:
+		push_error("Failed to load tech tree data")
 
-func complete_technology(tech_name : String):
+func is_tech_researched(tech_id: String) -> bool:
+	return tech_id in researched_techs
+
+func can_research(tech_id: String) -> bool:
+	if not tech_id in technologies:
+		return false
+		
+	var tech = technologies[tech_id]
+	
+	# Check era requirement
+	if tech.get("era", "") != current_era:
+		return false
+		
+	# Check tech prerequisites
+	for required_tech in tech.get("prerequisites", {}).get("techs_required", []):
+		if not is_tech_researched(required_tech):
+			return false
+			
+	return true
+
+func research_tech(tech_id: String) -> bool:
+	if not can_research(tech_id):
+		return false
+		
+	researched_techs.append(tech_id)
+	return true
+
+func get_available_techs() -> Array:
+	var available = []
+	
+	for tech_id in technologies:
+		if can_research(tech_id) and not is_tech_researched(tech_id):
+			available.append(tech_id)
+			
+	return available
+
+func advance_era(new_era: String):
+	current_era = new_era
+
+func add_researched_bulidings(buildings: Array):
+	for building in buildings:
+		script_user.building["building"] = building
 	pass

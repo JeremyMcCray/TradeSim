@@ -5,5 +5,4 @@
 [node name="Terrain_Chunk_Manager" type="Node3D"]
 script = ExtResource("1_ddl1h")
 chunk_size = 63
-edge_height = -3.5
 flatness = 0.6

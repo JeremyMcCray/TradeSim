@@ -55,7 +55,7 @@ func spawn_workable_nodes(village,noise) -> void:
 				
 			attempts += 1
 
-func is_valid_workable_spawn(point: Vector3, existing_nodes: Array, noise) -> bool:
+func is_valid_workable_spawn(point: Vector3, _existing_nodes: Array, noise) -> bool:
 	var slope = calculate_terrain_slope(point, noise)
 	if slope > deg_to_rad(10.0):
 		return false
@@ -64,10 +64,10 @@ func is_valid_workable_spawn(point: Vector3, existing_nodes: Array, noise) -> bo
 
 func get_chunk_height(world_x: float, world_z: float, noise) -> float:
 	var noise_value = noise.get_noise_2d(world_x, world_z)
-	var height = noise_value * 15
-	height = lerp(height, 0.0, flatness)
-	height = floor(height) / 2.0
-	return height
+	var chunk_height = noise_value * 15
+	chunk_height = lerp(chunk_height, 0.0, flatness)
+	chunk_height = floor(chunk_height) / 2.0
+	return chunk_height
 	
 func calculate_terrain_slope(point: Vector3, noise) -> float:
 	var sample_distance = 1.0

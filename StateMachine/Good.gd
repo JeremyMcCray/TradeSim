@@ -20,7 +20,7 @@ func _ready() -> void:
 		tree.global_position = global_position
 		tree.rotation = Vector3(0, randf(), 0)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if tick % tick_timer == 0:
 		ready_to_work = true
 	tick += 1

@@ -141,8 +141,8 @@ func print_inventory_value():
 			data.total_value
 		])
 	
-	print("-----------------------")
-	print("TOTAL INVENTORY VALUE: %d gold" % total_value)
-	print("CURRENT GOLD: %d gold" % script_user.gold)
-	print("TOTAL NET WORTH: %d gold" % (total_value + script_user.gold))
-	print("-----------------------\n")
+	#LogBox.add_message("-----------------------","Neutral")
+	#LogBox.add_message(str("TOTAL INVENTORY VALUE: %d gold\" % total_value"),"Neutral")
+	#print("CURRENT GOLD: %d gold" % script_user.gold)
+	#print("TOTAL NET WORTH: %d gold" % (total_value + script_user.gold))
+	#print("-----------------------\n")

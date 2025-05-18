@@ -12,8 +12,10 @@ var building_max = 5
 var prices = {}
 var goods_config
 
+var id
 var workers = []
 var specialized_workers = []
+var buildings = []
 
 var roles = {
 	"worker": {
@@ -62,6 +64,7 @@ func _ready() -> void:
 	spawn_trader()
 	goods_config = load("res://configs/goods_config.json").get_data()
 	initialize_prices()
+	
 
 func initialize_prices():
 	# Villages might have slightly different initial prices
@@ -181,7 +184,7 @@ func build_building(building_name: String, building_data: Dictionary):
 	var building_scene = building_data["scene"].instantiate()
 	self.add_child(building_scene)
 	building_scene.scale *= Vector3(2,2,2)
-	
+	buildings.append(building_scene)
 	building_scene.set_global_position(
 		Vector3(
 			self.global_position.x + randi_range(1,40),
@@ -203,7 +206,8 @@ func upgrade_worker(roleName):
 	roles[roleName]["need_weight"] =- 1
 	roles[roleName]["current_count"] += 1
 	
-	print("New role was changed to la " + str(roles[roleName]))
+	LogBox.add_message("Village","New role was changed to la " + str(roleName))
+
 
 	#Remove a worker to change into the new role
 	var changed = workers.pop_front()

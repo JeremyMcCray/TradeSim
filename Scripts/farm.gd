@@ -21,7 +21,7 @@ func work_node(gatherer) -> void:
 	if current_work_count >= max_works:
 		print("farm is dea")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if tick % tick_timer == 0:
 		ready_to_work = true
 	tick += 1

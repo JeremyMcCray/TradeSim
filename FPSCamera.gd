@@ -135,7 +135,7 @@ func handle_zoom(delta: float) -> void:
 	if Input.is_action_pressed("camera_zoom_out"):
 		zoom_level += zoom_speed * delta
 
-func handle_panning(delta: float) -> void:
+func handle_panning(_delta: float) -> void:
 	if is_panning:
 		var current_mouse_pos = get_viewport().get_mouse_position()
 		var displacement = current_mouse_pos - last_mouse_position

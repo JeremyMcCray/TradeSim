@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://dh3e6wkk1yftj"]
+
+[ext_resource type="Script" uid="uid://qkg7j2lppnjb" path="res://Scripts/village_label.gd" id="1_r7t38"]
+[ext_resource type="Script" uid="uid://dyoooumlry4vg" path="res://ui/test_label.gd" id="1_vk0pc"]
+
+[node name="test_label" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vk0pc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Village Data:
+Name : Village 1
+Inventory 
+{
+Wood : 100
+Stone : 200
+Food : 11 
+}"
+script = ExtResource("1_r7t38")

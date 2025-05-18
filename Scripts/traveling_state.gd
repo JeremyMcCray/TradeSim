@@ -7,8 +7,10 @@ func _ready():
 	script_user = get_parent().get_script_user()
 
 func Enter():
-	script_user = get_parent().get_parent()
-	script_user.current_target = Global.villages.pick_random()
+	if Global and Global.villages:
+		script_user.current_target = Global.villages.pick_random()
+	else:
+		script_user.current_target = script_user.village
 
 func Exit():
 	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://cmn7lvheq2nmm"]
+[gd_scene load_steps=16 format=4 uid="uid://cmn7lvheq2nmm"]
 
 [ext_resource type="Script" uid="uid://de0rc2a36u3ui" path="res://Terrain.gd" id="1_c7haq"]
 [ext_resource type="Shader" uid="uid://it0oxdbjpntf" path="res://shaders/terrain.gdshader" id="2_3ifll"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d3wsdxkvqywug" path="res://ui/DayDisplay.tscn" id="3_fvag4"]
 [ext_resource type="Script" uid="uid://lnk1yy6mse25" path="res://FPSCamera.gd" id="4_iwxe0"]
 [ext_resource type="Texture2D" uid="uid://c31fa0767igmx" path="res://assets/rock.jpg" id="4_jpx8y"]
+[ext_resource type="PackedScene" uid="uid://cfgtitux047cl" path="res://Scenes/log_box.tscn" id="4_kva58"]
 [ext_resource type="Texture2D" uid="uid://cyyu3wxv3epas" path="res://assets/sand.jpg" id="5_af20r"]
 [ext_resource type="PackedScene" uid="uid://bxx5dcw1rwg1t" path="res://Scenes/character.tscn" id="10_yb7ig"]
 [ext_resource type="PackedScene" uid="uid://6of7rdp0nite" path="res://Scenes/terrain_chunk_manager.tscn" id="11_sn1vj"]
@@ -60,22 +61,25 @@ far = 1000.0
 [node name="DayDisplay" parent="FPSCamera/Camera3D" instance=ExtResource("3_fvag4")]
 mouse_filter = 2
 
+[node name="LogBox" parent="FPSCamera/Camera3D" instance=ExtResource("4_kva58")]
+z_index = 3
+anchor_left = 0.0
+anchor_top = 0.16
+offset_left = -2.0
+offset_top = 0.319992
+offset_right = -1.0
+offset_bottom = -2.0
+size_flags_horizontal = 0
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_frnig")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
 transform = Transform3D(0.215243, -0.686008, -0.695028, 0.30748, -0.627903, 0.714978, -0.926891, -0.367601, 0.075782, 0, 36.726, 0)
+light_energy = 0.476
 shadow_enabled = true
 directional_shadow_mode = 0
 directional_shadow_max_distance = 200.0
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer"]
-offset_right = 237.0
-offset_bottom = 231.0
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
 
 [node name="Terrain" type="MeshInstance3D" parent="."]
 visible = false

@@ -14,6 +14,8 @@ var existing_villages := []  # Store village positions
 
 var good_placer
 
+var village_names : Array
+
 var world_boarder
 # Pass through configuration
 @export var smooth : bool = true:
@@ -34,7 +36,8 @@ func _ready() -> void:
 	noise.frequency = 0.01
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	good_placer = GoodPlacer.new()
-	update_chunks()
+	village_names = load("res://configs/agot_vil_names.json").get_data()
+	village_names.shuffle()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_r"):  # Regenerate terrain
@@ -75,9 +78,11 @@ func try_spawn_village(chunk_pos: Vector2i) -> void:
 			village.add_to_group("Village")
 			add_child(village)
 			village.global_position = spawn_point
-			Global.villages.append(village)
+			village.id = village_names.pop_front()
+			Global.add_village(village)
 			existing_villages.append(spawn_point)
 			good_placer.spawn_workable_nodes(village, noise)
+			LogBox.add_message("ChunkLoader","New Village Created: " + str(village.id))
 			break
 			
 		attempts += 1
