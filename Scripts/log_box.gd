@@ -1,30 +1,16 @@
-extends Control
+extends Node
 
-var chatLog : RichTextLabel
+signal log_added(text: String, group: int, color: String)
 
-var groups = [
-	{'name': 'Neutral', 'color': '#00abc7'},#TODO These colors need to be changed to match the name but o well
-	{'name': 'Warn', 'color': '#ffdd8b'},
-	{'name': 'Good', 'color': '#ffffff'}
-]
+# Predefined groups (optional)
+enum LogGroup { NEUTRAL, WARN, GOOD }
+const GROUP_COLORS = {
+	LogGroup.NEUTRAL: "#00abc7",
+	LogGroup.WARN: "#ffdd8b",
+	LogGroup.GOOD: "#ffffff"
+}
 
-func _ready() -> void:
-	chatLog = RichTextLabel.new()
-	chatLog.bbcode_enabled = true
-	chatLog.scroll_active = true
-	chatLog.scroll_following = true
-	chatLog.custom_minimum_size = Vector2(400,160)
-	chatLog.mouse_filter = Control.MOUSE_FILTER_PASS
-	add_child(chatLog)
-
-func add_message(username, message_text, group = 0, color = ''):
-	print(message_text)
-	chatLog.text += '\n' 
-	if color == '':
-		chatLog.text += '[color=' + groups[group]['color'] + ']'
-	else:
-		chatLog.text += '[color=' + color + ']'
-	if username != '':
-		chatLog.text += '[' + username + ']: '
-	chatLog.text += message_text
-	chatLog.text += '[/color]'
+# Call this from anywhere to add a log
+func add_log(text: String, group: LogGroup = LogGroup.NEUTRAL, color: String = "") -> void:
+	var final_color = color if color != "" else GROUP_COLORS[group]
+	emit_signal("log_added", text, group, final_color)

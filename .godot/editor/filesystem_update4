@@ -12,6 +12,8 @@ res://Worker/worker.tscn
 res://Scenes/trader.tscn
 res://Scenes/log_box.tscn
 res://Scenes/terrain_chunk_manager.tscn
-res://configs/agot_vil_names.json
-res://Utils/config_loader.gd
+res://Scripts/log_box.gd
 res://Scripts/terrain_chunk_manager.gd
+res://Scripts/chunk_Logger.gd
+res://Scripts/fps_label.gd
+res://Utils/fps_label.tscn

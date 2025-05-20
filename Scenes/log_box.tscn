@@ -1,30 +1,49 @@
 [gd_scene load_steps=2 format=3 uid="uid://cfgtitux047cl"]
 
-[ext_resource type="Script" uid="uid://2qnpasqxipcq" path="res://Scripts/log_box.gd" id="1_t1rbt"]
+[ext_resource type="Script" uid="uid://b5gqqybd7akgq" path="res://Scripts/chunk_Logger.gd" id="1_t1rbt"]
 
 [node name="LogBox" type="Control"]
 layout_mode = 3
-anchor_left = 0.003
-anchor_top = 0.145
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -0.456
-offset_top = 0.0399933
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("1_t1rbt")
+anchors_preset = 0
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
 offset_right = 800.0
-offset_bottom = 300.0
+offset_bottom = 331.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="ChunkManager" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
 custom_minimum_size = Vector2(800, 300)
 layout_mode = 2
-mouse_filter = 2
+mouse_filter = 1
 bbcode_enabled = true
 scroll_following = true
 autowrap_mode = 0
+script = ExtResource("1_t1rbt")
+metadata/_tab_index = 0
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(800, 300)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "123"
+scroll_following = true
+autowrap_mode = 0
+metadata/_tab_index = 1
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(800, 300)
+layout_mode = 2
+mouse_filter = 1
+bbcode_enabled = true
+text = "5555"
+scroll_following = true
+autowrap_mode = 0
+metadata/_tab_index = 2

@@ -61,7 +61,7 @@ func try_spawn_village(chunk_pos: Vector2i) -> void:
 		return
 	
 	var attempts = 0
-	var max_attempts = 3
+	var max_attempts = 2
 	
 	while attempts < max_attempts:
 		# Convert to world coordinates with some randomness within the chunk
@@ -75,14 +75,14 @@ func try_spawn_village(chunk_pos: Vector2i) -> void:
 			#Makes sure there is ground around the entire village
 			update_chunks_around_position(Vector2i(chunk_pos.x,chunk_pos.y), 10)
 			var village = load("res://Scenes/village_center.tscn").instantiate()
-			village.add_to_group("Village")
 			add_child(village)
+			village.add_to_group("Village")
 			village.global_position = spawn_point
 			village.id = village_names.pop_front()
 			Global.add_village(village)
 			existing_villages.append(spawn_point)
 			good_placer.spawn_workable_nodes(village, noise)
-			LogBox.add_message("ChunkLoader","New Village Created: " + str(village.id))
+			LogBox.add_log("New Village Created: " + str(village.id))
 			break
 			
 		attempts += 1

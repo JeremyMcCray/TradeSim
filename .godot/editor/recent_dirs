@@ -1,4 +1,5 @@
 res://Utils
+res://
 C:/Projects/Godot Projects/tradesim/configs
 res://Scripts
 res://Scenes
@@ -13,7 +14,6 @@ res://assets/highFantasyBuildings/WatchTower
 res://assets/highFantasyBuildings/Hut
 res://assets/highFantasyBuildings/TownCenter
 res://assets/highFantasyBuildings/Barracks
-res://
 res://buildings
 C:/Projects/Godot Projects/Trade_Sim_Export
 res://assets/Rocks

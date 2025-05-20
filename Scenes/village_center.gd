@@ -206,7 +206,7 @@ func upgrade_worker(roleName):
 	roles[roleName]["need_weight"] =- 1
 	roles[roleName]["current_count"] += 1
 	
-	LogBox.add_message("Village","New role was changed to la " + str(roleName))
+	LogBox.add_log("Worker was changed to " + str(roleName))
 
 
 	#Remove a worker to change into the new role
